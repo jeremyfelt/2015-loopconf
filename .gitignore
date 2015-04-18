@@ -1,6 +1,7 @@
 *.sublime-*
 .DS_Store
 
+node_modules/
 reveal.js/log/*.log
 reveal.js/tmp/**
 reveal.js/node_modules/
