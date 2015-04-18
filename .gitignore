@@ -1,2 +1,10 @@
 *.sublime-*
 .DS_Store
+
+reveal.js/log/*.log
+reveal.js/tmp/**
+reveal.js/node_modules/
+reveal.js/.sass-cache
+reveal.js/css/reveal.min.css
+reveal.js/js/reveal.min.js
+reveal.js/test
