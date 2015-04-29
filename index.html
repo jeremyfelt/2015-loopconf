@@ -45,27 +45,11 @@
 					<p>@jeremyfelt</p>
 				</section>
 				<section>
-					<ul>
-						<li>Context</li>
-						<li>Structure</li>
-						<li>Awareness</li>
-						<li>Extension</li>
-					</ul>
-					<aside class="notes" data-markdown>
-						* Walk through the structure of multisite—how it's built from the database schema to code.
-						* Cover the most important things you should be aware of while working in multisite.
-						* Explore useful ways to extend multisite and some common annoyances.
-						* A bit of the future of multisite and some questions.
-					</aside>
-				</section>
-				<section>
 					<section>
-						<ul>
-							<li>Context</li>
-							<li>Structure</li>
-							<li>Awareness</li>
-							<li>Extension</li>
-						</ul>
+						<h1>History</h1>
+						<aside class="notes">
+							* History as context.
+						</aside>
 					</section>
 					<section>
 						<h1>b2</h1>
@@ -168,15 +152,20 @@
 					</section>
 				</section>
 				<section>
-					<section>
-						<ul>
-							<li>Context</li>
-							<li><strong>Structure</strong></li>
-							<li>Awareness</li>
-							<li>Extension</li>
-						</ul>
-					</section>
-					<section>
+					<div style="text-align: left;">
+						<h1>Structure</h1>
+						<h1>Awareness</h1>
+						<h1>Extension</h1>
+					</div>
+					<aside class="notes">
+						* Provide the structure of multisite by showing what happens behind the scenes when a multisite request is made.
+						* Empower with a sense of awareness by walking through sunrise possibilities.
+						* Give you some immediate tips on enhancing your current multisite setup through available plugins.
+					</aside>
+				</section>
+				<section>
+					<section class="db-slide-one">
+						<h1>The Database.</h1>
 						<div class="ms-tables ms-tables-base" data-markdown>
 							* wp_options
 							* wp_posts
@@ -191,7 +180,31 @@
 							* wp_users
 							* wp_usermeta
 						</div>
-						<div class="ms-tables ms-tables-multisite fragment" data-markdown>
+						<div class="ms-tables ms-tables-multisite ms-tables-global fragment" data-markdown>
+							* wp_blogs
+							* wp_blog_versions
+							* wp_registration_log
+							* wp_signups
+							* wp_site
+							* wp_sitemeta
+						</div>
+					</section>
+					<section>
+						<div class="ms-tables ms-tables-base" data-markdown>
+							* wp_options
+							* wp_posts
+							* wp_postmeta
+							* wp_comments
+							* wp_commentmeta
+							* wp_terms
+							* wp_term_taxonomy
+							* wp_term_relationships
+						</div>
+						<div class="ms-tables ms-tables-repurpose ms-tables-global" data-markdown>
+							* wp_users
+							* wp_usermeta
+						</div>
+						<div class="ms-tables ms-tables-multisite ms-tables-global" data-markdown>
 							* wp_blogs
 							* wp_blog_versions
 							* wp_registration_log
@@ -200,7 +213,7 @@
 							* wp_sitemeta
 						</div>
 						<div class="clear"></div>
-						<div class="ms-tables ms-tables-new-site fragment" data-markdown>
+						<div class="ms-tables ms-tables-new-site" data-markdown>
 							* wp_2_options
 							* wp_2_posts
 							* wp_2_postmeta
@@ -230,6 +243,113 @@
 							* wp_4_term_taxonomy
 							* wp_4_term_relationships							
 						</div>
+					</section>
+					<section>
+						<div class="ms-tables ms-tables-base" data-markdown>
+							* wp_options
+							* wp_posts
+							* wp_postmeta
+							* wp_comments
+							* wp_commentmeta
+							* wp_terms
+							* wp_term_taxonomy
+							* wp_term_relationships
+						</div>
+						<div class="ms-tables ms-tables-repurpose" data-markdown>
+							* wp_users
+							* wp_usermeta
+						</div>
+						<div class="ms-tables ms-tables-multisite" data-markdown>
+							* wp_blogs
+							* wp_blog_versions
+							* wp_registration_log
+							* wp_signups
+							* wp_site
+							* wp_sitemeta
+						</div>
+						<div class="clear"></div>
+						<div class="ms-tables ms-tables-new-site" data-markdown>
+							* wp_2_options
+							* wp_2_posts
+							* wp_2_postmeta
+							* wp_2_comments
+							* wp_2_commentmeta
+							* wp_2_terms
+							* wp_2_term_taxonomy
+							* wp_2_term_relationships
+						</div>
+						<div class="ms-tables ms-tables-new-site" data-markdown>
+							* wp_3_options
+							* wp_3_posts
+							* wp_3_postmeta
+							* wp_3_comments
+							* wp_3_commentmeta
+							* wp_3_terms
+							* wp_3_term_taxonomy
+							* wp_3_term_relationships							
+						</div>
+						<div class="ms-tables ms-tables-new-site" data-markdown>
+							* wp_4_options
+							* wp_4_posts
+							* wp_4_postmeta
+							* wp_4_comments
+							* wp_4_commentmeta
+							* wp_4_terms
+							* wp_4_term_taxonomy
+							* wp_4_term_relationships							
+						</div>
+						<div class="clear"></div>
+						<div class="ms-tables ms-tables-new-site" data-markdown>
+							* wp_5_options
+							* wp_5_posts
+							* wp_5_postmeta
+							* wp_5_comments
+							* wp_5_commentmeta
+							* wp_5_terms
+							* wp_5_term_taxonomy
+							* wp_5_term_relationships
+						</div>
+						<div class="ms-tables ms-tables-new-site" data-markdown>
+							* wp_6_options
+							* wp_6_posts
+							* wp_6_postmeta
+							* wp_6_comments
+							* wp_6_commentmeta
+							* wp_6_terms
+							* wp_6_term_taxonomy
+							* wp_6_term_relationships							
+						</div>
+						<div class="ms-tables ms-tables-new-site" data-markdown>
+							* wp_7_options
+							* wp_7_posts
+							* wp_7_postmeta
+							* wp_7_comments
+							* wp_7_commentmeta
+							* wp_7_terms
+							* wp_7_term_taxonomy
+							* wp_7_term_relationships							
+						</div>
+						<aside class="notes">
+						Multisite is basically using the global blogs and sites tables to figure out what other set of tables to use for the request. Remember this as it's key to understanding many things in multisite and we'll touch on it again later.
+						</aside>
+					</section>
+					<section>
+						<h1>Network</h1>
+						<div style="text-align:left;">
+							<h1><span class="code">$current_site</span></h1>
+							<div style="clear:left;" class="ms-tables ms-tables-multisite ms-tables-large" data-markdown>
+								* wp_site
+								* wp_sitemeta
+							</div>
+						</div>
+					</section>
+					<section>
+						<h1>Site</h1>
+						<div style="text-align: left;">
+							<h1><span class="code">$current_blog</span></h1>
+							<div class="ms-tables ms-tables-multisite ms-tables-large" data-markdown>
+								* wp_blogs
+							</div>
 					</section>
 					<section>
 						<div class="ms-tables ms-tables-multisite" data-markdown>

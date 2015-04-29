@@ -13,6 +13,11 @@
 	margin-bottom: 40px;
 }
 
+.reveal h1 .code {
+	font-size: .8em;
+	font-family: monospace;
+}
+
 .reveal .ms-tables {
     float: left;
     text-align: left;
@@ -29,6 +34,18 @@
     font-family: monospace;
 }
 
+.reveal .db-slide-one .ms-tables li {
+	font-size: 32px;
+}
+
+.reveal .ms-tables-large li {
+	font-size: 1.7em;
+}
+
+.ms-tables-global {
+	color: #000;
+	background-color: #fff;
+}
 .reveal .clear {
 	clear: both;
 }
