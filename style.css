@@ -6,3 +6,37 @@
 .title-slide h1 {
 	font-size: 96px;
 }
+
+.file-title h1 {
+	font-size: 50px;
+	font-family: monospace;
+	margin-bottom: 40px;
+}
+
+.reveal .ms-tables {
+    float: left;
+    text-align: left;
+    width: 33%;
+}
+
+.reveal .ms-tables ul {
+	margin: 0 0 25px 0;
+	list-style: none;
+}
+
+.reveal .ms-tables li {
+    font-size: 21px;
+    font-family: monospace;
+}
+
+.reveal .clear {
+	clear: both;
+}
+
+.reveal pre {
+	width: 100%;
+}
+
+.reveal pre code {
+  max-height: 500px;
+}

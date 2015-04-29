@@ -168,12 +168,140 @@
 					</section>
 				</section>
 				<section>
-					<ul>
-						<li>Context</li>
-						<li><strong>Structure</strong></li>
-						<li>Awareness</li>
-						<li>Extension</li>
-					</ul>
+					<section>
+						<ul>
+							<li>Context</li>
+							<li><strong>Structure</strong></li>
+							<li>Awareness</li>
+							<li>Extension</li>
+						</ul>
+					</section>
+					<section>
+						<div class="ms-tables ms-tables-base" data-markdown>
+							* wp_options
+							* wp_posts
+							* wp_postmeta
+							* wp_comments
+							* wp_commentmeta
+							* wp_terms
+							* wp_term_taxonomy
+							* wp_term_relationships
+						</div>
+						<div class="ms-tables ms-tables-repurpose" data-markdown>
+							* wp_users
+							* wp_usermeta
+						</div>
+						<div class="ms-tables ms-tables-multisite fragment" data-markdown>
+							* wp_blogs
+							* wp_blog_versions
+							* wp_registration_log
+							* wp_signups
+							* wp_site
+							* wp_sitemeta
+						</div>
+						<div class="clear"></div>
+						<div class="ms-tables ms-tables-new-site fragment" data-markdown>
+							* wp_2_options
+							* wp_2_posts
+							* wp_2_postmeta
+							* wp_2_comments
+							* wp_2_commentmeta
+							* wp_2_terms
+							* wp_2_term_taxonomy
+							* wp_2_term_relationships
+						</div>
+						<div class="ms-tables ms-tables-new-site fragment" data-markdown>
+							* wp_3_options
+							* wp_3_posts
+							* wp_3_postmeta
+							* wp_3_comments
+							* wp_3_commentmeta
+							* wp_3_terms
+							* wp_3_term_taxonomy
+							* wp_3_term_relationships							
+						</div>
+						<div class="ms-tables ms-tables-new-site fragment" data-markdown>
+							* wp_4_options
+							* wp_4_posts
+							* wp_4_postmeta
+							* wp_4_comments
+							* wp_4_commentmeta
+							* wp_4_terms
+							* wp_4_term_taxonomy
+							* wp_4_term_relationships							
+						</div>
+					</section>
+					<section>
+						<div class="ms-tables ms-tables-multisite" data-markdown>
+							* wp_blogs
+							* wp_blog_versions
+							* wp_registration_log
+							* wp_signups
+							* wp_site
+							* wp_sitemeta
+						</div>
+					</section>
+					<section>
+						<div class="ms-tables-right">
+							<h1>wp_blogs</h1>
+<pre><code>mysql> show fields from wp_blogs;
++--------------+--------------+------+-----+---------------------+
+| Field        | Type         | Null | Key | Default             |
++--------------+--------------+------+-----+---------------------+
+| blog_id      | bigint(20)   | NO   | PRI | NULL                |
+| site_id      | bigint(20)   | NO   |     | 0                   |
+| domain       | varchar(200) | NO   | MUL |                     |
+| path         | varchar(100) | NO   |     |                     |
+| registered   | datetime     | NO   |     | 0000-00-00 00:00:00 |
+| last_updated | datetime     | NO   |     | 0000-00-00 00:00:00 |
+| public       | tinyint(2)   | NO   |     | 1                   |
+| archived     | tinyint(2)   | NO   |     | 0                   |
+| mature       | tinyint(2)   | NO   |     | 0                   |
+| spam         | tinyint(2)   | NO   |     | 0                   |
+| deleted      | tinyint(2)   | NO   |     | 0                   |
+| lang_id      | int(11)      | NO   | MUL | 0                   |
++--------------+--------------+------+-----+---------------------+
+12 rows in set (0.01 sec)</code></pre>
+						</div>
+					</section>
+					<section>
+						<div>
+							<h1>wp_blogs</h1>
+<pre><code>mysql> SELECT blog_id, site_id, domain, path FROM wp_blogs;
++---------+---------+----------------+----------+
+| blog_id | site_id | domain         | path     |
++---------+---------+----------------+----------+
+|       1 |       1 | jeremyfelt.com | /        |
+|       2 |       1 | jeremyfelt.com | /photos/ |
++---------+---------+----------------+----------+
+2 rows in set (0.00 sec)</code></pre>
+<pre><code>mysql> SELECT blog_id, site_id, domain, path FROM wp_blogs;
++---------+---------+-----------------------+------+
+| blog_id | site_id | domain                | path |
++---------+---------+-----------------------+------+
+|       1 |       1 | jeremyfelt.com        | /    |
+|       2 |       1 | photos.jeremyfelt.com | /    |
++---------+---------+-----------------------+------+
+2 rows in set (0.00 sec)</code></pre>
+						</div>
+					</section>
+					<section class="file-title">
+					<h1>wp-includes/ms-settings.php</h1>
+<pre><code class="php">$domain = strtolower( stripslashes( $_SERVER['HTTP_HOST'] ) );
+if ( substr( $domain, -3 ) == ':80' ) {
+	$domain = substr( $domain, 0, -3 );
+	$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
+} elseif ( substr( $domain, -4 ) == ':443' ) {
+	$domain = substr( $domain, 0, -4 );
+	$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
+}
+
+$path = stripslashes( $_SERVER['REQUEST_URI'] );
+if ( is_admin() ) {
+	$path = preg_replace( '#(.*)/wp-admin/.*#', '$1/', $path );
+}
+list( $path ) = explode( '?', $path );</code></pre>
+					</section>
 				</section>
 
 			</div>
