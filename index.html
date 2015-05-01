@@ -330,63 +330,34 @@
 							* wp_7_term_relationships							
 						</div>
 						<aside class="notes">
-						Multisite is basically using the global blogs and sites tables to figure out what other set of tables to use for the request. Remember this as it's key to understanding many things in multisite and we'll touch on it again later.
+						Multisite is basically using the global blogs and sites tables to figure out what other set of tables to use for the request. After that, almost everything it does is exactly the same as single site for most page loads. Remember this as it's key to understanding many things in multisite and we'll touch on it again later.
 						</aside>
 					</section>
 					<section>
-						<h1>Network</h1>
-						<div style="text-align:left;">
-							<h1><span class="code">$current_site</span></h1>
-							<div style="clear:left;" class="ms-tables ms-tables-multisite ms-tables-large" data-markdown>
-								* wp_site
-								* wp_sitemeta
-							</div>
-						</div>
+						<h1>Finding $current_site</h1>
+<pre><code class="php">$current_site->id;            // The site_id of the network.
+$current_site->domain;        // The domain string for the network.
+$current_site->path;          // The path string for the network.
+$current_site->blog_id;       // The blog_id of the network's main site.
+                              // The domain and path match that of the
+                              // network's
+</code></pre>
+<pre><code class="mysql">mysql> SELECT * FROM wp_site;
++----+---------------------------+------+
+| id | domain                    | path |
++----+---------------------------+------+
+|  1 | jeremyfelt.com            | /    |
++----+---------------------------+------+
+1 row in set (0.00 sec)</code></pre>
 					</section>
 					<section>
-						<h1>Site</h1>
-						<div style="text-align: left;">
-							<h1><span class="code">$current_blog</span></h1>
-							<div class="ms-tables ms-tables-multisite ms-tables-large" data-markdown>
-								* wp_blogs
-							</div>
-					</section>
-					<section>
-						<div class="ms-tables ms-tables-multisite" data-markdown>
-							* wp_blogs
-							* wp_blog_versions
-							* wp_registration_log
-							* wp_signups
-							* wp_site
-							* wp_sitemeta
-						</div>
-					</section>
-					<section>
-						<div class="ms-tables-right">
-							<h1>wp_blogs</h1>
-<pre><code>mysql> show fields from wp_blogs;
-+--------------+--------------+------+-----+---------------------+
-| Field        | Type         | Null | Key | Default             |
-+--------------+--------------+------+-----+---------------------+
-| blog_id      | bigint(20)   | NO   | PRI | NULL                |
-| site_id      | bigint(20)   | NO   |     | 0                   |
-| domain       | varchar(200) | NO   | MUL |                     |
-| path         | varchar(100) | NO   |     |                     |
-| registered   | datetime     | NO   |     | 0000-00-00 00:00:00 |
-| last_updated | datetime     | NO   |     | 0000-00-00 00:00:00 |
-| public       | tinyint(2)   | NO   |     | 1                   |
-| archived     | tinyint(2)   | NO   |     | 0                   |
-| mature       | tinyint(2)   | NO   |     | 0                   |
-| spam         | tinyint(2)   | NO   |     | 0                   |
-| deleted      | tinyint(2)   | NO   |     | 0                   |
-| lang_id      | int(11)      | NO   | MUL | 0                   |
-+--------------+--------------+------+-----+---------------------+
-12 rows in set (0.01 sec)</code></pre>
-						</div>
-					</section>
-					<section>
-						<div>
-							<h1>wp_blogs</h1>
+						<h1>Finding $current_blog</h1>
+<pre><code class="php">$current_blog->blog_id; // The blog_id of the site.
+$current_blog->site_id; // The site_id of the site's network.
+$current_blog->domain;  // The domain string for the network.
+$current_blog->path;    // The path string for the network.
+....                    // More data directly from the wp_blogs record.</code></pre>
+<pre><code class="mysql"></code></pre>
 <pre><code>mysql> SELECT blog_id, site_id, domain, path FROM wp_blogs;
 +---------+---------+----------------+----------+
 | blog_id | site_id | domain         | path     |
@@ -395,15 +366,6 @@
 |       2 |       1 | jeremyfelt.com | /photos/ |
 +---------+---------+----------------+----------+
 2 rows in set (0.00 sec)</code></pre>
-<pre><code>mysql> SELECT blog_id, site_id, domain, path FROM wp_blogs;
-+---------+---------+-----------------------+------+
-| blog_id | site_id | domain                | path |
-+---------+---------+-----------------------+------+
-|       1 |       1 | jeremyfelt.com        | /    |
-|       2 |       1 | photos.jeremyfelt.com | /    |
-+---------+---------+-----------------------+------+
-2 rows in set (0.00 sec)</code></pre>
-						</div>
 					</section>
 					<section class="file-title">
 					<h1>wp-includes/ms-settings.php</h1>
@@ -421,6 +383,45 @@ if ( is_admin() ) {
 	$path = preg_replace( '#(.*)/wp-admin/.*#', '$1/', $path );
 }
 list( $path ) = explode( '?', $path );</code></pre>
+					</section>
+					<section class="file-title">
+						<h1>wp-includes/ms-settings.php</h1>
+<pre><code class="php">// If the network is defined in wp-config.php, we can simply use that.
+if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
+	$current_site = new stdClass;
+	$current_site->id = defined( 'SITE_ID_CURRENT_SITE' ) ? SITE_ID_CURRENT_SITE : 1;
+	$current_site->domain = DOMAIN_CURRENT_SITE;
+	$current_site->path = PATH_CURRENT_SITE;
+	if ( defined( 'BLOG_ID_CURRENT_SITE' ) ) {
+		$current_site->blog_id = BLOG_ID_CURRENT_SITE;
+	}</code></pre>
+					<h1>wp-config.php</h1>
+<pre><code class="php">define( 'DOMAIN_CURRENT_SITE', 'jeremyfelt.com' );
+define( 'PATH_CURRENT_SITE',   '/'              );
+define( 'SITE_ID_CURRENT_SITE', 1               );
+define( 'BLOG_ID_CURRENT_SITE', 1               );</code></pre>
+					<aside class="notes">
+					This configuration cares nothing for whether this is a subdirectory or subdomain installation of multisite.
+					</aside>
+					</section>
+					<section>
+						<h1>get_site_by_path( $domain, $path, $segments )</h1>
+						<p>$domain + $path -> $current_blog</p>
+					</section>
+					<section>
+						<h1>Subdirectory install</h1>
+						<p>All sites must have the same domain and different paths.</p>
+						<p>Populate $current_site based on the assumption of the requested domain and a path of '/' using get_network_by_path() if more than one network.</p>
+						<p>Populate $current_blog using get_site_by_path() once the network has been found.</p>
+					</section>
+					<section>
+						<h1>Subdomain install</h1>
+						<p>Sites can have different subdomains and paths. This becomes the "arbitrary configuration" option.</p>
+						<p>Populate $current_blog first using get_site_by_path().</p>
+						<p>Populate $current_site using the site_id attached to the $current_blog object.</p>
+					</section>
+					<section>
+						<h1>wp_usermeta / capabilities</h1>
 					</section>
 				</section>
 
