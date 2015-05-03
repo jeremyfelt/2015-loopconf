@@ -41,16 +41,19 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section class="title-slide">
-					<h1>Zen and the Art of Multisite Maintenance</h1>
+					<h1>Multisite.</h1>
 					<p>@jeremyfelt</p>
 				</section>
-				<section>
+
+				<section class="history-slides">
+
 					<section>
 						<h1>History</h1>
 						<aside class="notes">
 							* History as context.
 						</aside>
 					</section>
+
 					<section>
 						<h1>b2</h1>
 						<img src="images/b2.cafelog.png">
@@ -58,16 +61,19 @@
 							Michel Valdrighi, 2001.
 						</aside>
 					</section>
+
 					<section>
 						<h1>???</h1>
 						<p>January 24, 2003</p>
 						<img title="https://web.archive.org/web/20031019094451/http://photomatt.net/p405" src="images/wp-origin-post.png">
 					</section>
+
 					<section>
 						<h1>b2-smarty</h1>
 						<p>February 27, 2003</p>
 						<img title="https://web.archive.org/web/20030610000416/http://tidakada.com/board/viewtopic.php?t=2438" src="images/b2-smarty-announce.png">
 					</section>
+
 					<section>
 						<h1>b2++</h1>
 						<p>April 17, 2003</p>
@@ -76,22 +82,26 @@
 							Donncha Ó Caoimh, named b2-smarty
 						</aside>
 					</section>
+
 					<section>
 						<h1>WordPress</h1>
 						<p>May 26, 2003</p>
 						<img title="https://web.archive.org/web/20030601131608/http://wordpress.org/development/archives/16" src="images/wp-available.png">
 					</section>
+
 					<section>
 						<h1>WordPress + b2++</h1>
 						<p>May 29, 2003</p>
 						<img src="images/wp-b2-announce.png">
 						<img src="images/wp-and-b2.png">
 					</section>
+
 					<section>
 						<h1>WordPress Multiuser 0.1</h1>
 						<p>October 4, 2004</p>
 						<img title="http://z9.io/2004/10/04/wordpress-multiuser-01/" src="images/wp-multiuser-0.1.png">
 					</section>
+
 					<section>
 						<h1>WordPressμ</h1>
 						<p>July 12, 2005</p>
@@ -100,26 +110,31 @@
 							When the first changeset of MU lands, it has a handful of plugins, support for templating via Smarty, and a basic method for creating new sites on the network. Only 2 weeks later, Matt posts a notice that you can begin signing up to reserve a username.
 						</aside>
 					</section>
+
 					<section>
 						<h1>WordPress.com</h1>
 						<p>August 8, 2005 | 142 changesets</p>
 						<p>The first beta release.</p>
 					</section>
+
 					<section>
 						<h1>WordPress.com</h1>
 						<p>September 28, 2005 | 378 changesets</p>
 						<img src="images/a-golden-ticket.png">
 					</section>
+
 					<section>
 						<h1>WordPress.com</h1>
 						<p>November 21, 2005 | 443 changesets</p>
 						<p>Public release.</p>
 					</section>
+
 					<section>
 						<h1>WordPress MU 1.0</h1>
 						<p>October 10, 2006 | 801 changesets</p>
 						<img src="images/changeset-801.png">
 					</section>
+
 					<section>
 						<h1>WordCamp San Francisco</h1>
 						<p>May 29, 2009 | 1789 changesets</p>
@@ -128,29 +143,35 @@
 							The intention to merge WordPress and WordPress MU is announced on May 29, 2009 during Matt's State of the Word talk at WordCamp San Francisco. At this point there are 1789 changesets in WordPress MU. It happens to be exactly 6 years since it was announced that Donncha would be joining the WordPress dev team and that b2++ would be merged into WordPress.
 						</aside>
 					</section>
+
 					<section>
 						<h1>#11644</h1>
 						<p>December 27, 2009 | 2041 changesets</p>
 						<img src="images/11644.png">
 					</section>
+
 					<section>
 						<h1>[12602]</h1>
 						<p>January 5, 2010 | 2044 changesets</p>
 						<img src="images/first-ms-settings.png">
 						<aside class="notes">Second commit after 2.9.1 was tagged.</aside>
 					</section>
+
 					<section>
 						<h1>#11644 (Fixed)</h1>
 						<p>March 21, 2010</p>
 						<img src="images/11644-fixed.png">
 					</section>
+
 					<section data-background="images/thelonious-monk-public-domain.jpg">
 						<h1>WordPress 3.0 "Thelonious"</h1>
 						<p>June 17, 2010</p>
 						<p><em>Use it to power one site, or 10 million. Straight, no chaser.</em></p>
 						<aside class="notes"></aside>
 					</section>
+
 				</section>
+
 				<section>
 					<div style="text-align: left;">
 						<h1>Structure</h1>
@@ -163,7 +184,9 @@
 						* Give you some immediate tips on enhancing your current multisite setup through available plugins.
 					</aside>
 				</section>
-				<section>
+
+				<section class="structure-slides">
+
 					<section class="db-slide-one">
 						<h1>The Database.</h1>
 						<div class="ms-tables ms-tables-base" data-markdown>
@@ -189,6 +212,7 @@
 							* wp_sitemeta
 						</div>
 					</section>
+
 					<section>
 						<div class="ms-tables ms-tables-base" data-markdown>
 							* wp_options
@@ -244,6 +268,7 @@
 							* wp_4_term_relationships							
 						</div>
 					</section>
+
 					<section>
 						<div class="ms-tables ms-tables-base" data-markdown>
 							* wp_options
@@ -333,9 +358,10 @@
 						Multisite is basically using the global blogs and sites tables to figure out what other set of tables to use for the request. After that, almost everything it does is exactly the same as single site for most page loads. Remember this as it's key to understanding many things in multisite and we'll touch on it again later.
 						</aside>
 					</section>
+
 					<section>
 						<h1>Finding $current_site</h1>
-<pre><code class="php">$current_site->id;            // The site_id of the network.
+						<pre><code class="php">$current_site->id;            // The site_id of the network.
 $current_site->domain;        // The domain string for the network.
 $current_site->path;          // The path string for the network.
 $current_site->blog_id;       // The blog_id of the network's main site.
@@ -350,9 +376,10 @@ $current_site->blog_id;       // The blog_id of the network's main site.
 +----+---------------------------+------+
 1 row in set (0.00 sec)</code></pre>
 					</section>
+
 					<section>
 						<h1>Finding $current_blog</h1>
-<pre><code class="php">$current_blog->blog_id; // The blog_id of the site.
+						<pre><code class="php">$current_blog->blog_id; // The blog_id of the site.
 $current_blog->site_id; // The site_id of the site's network.
 $current_blog->domain;  // The domain string for the network.
 $current_blog->path;    // The path string for the network.
@@ -367,9 +394,10 @@ $current_blog->path;    // The path string for the network.
 +---------+---------+----------------+----------+
 2 rows in set (0.00 sec)</code></pre>
 					</section>
+
 					<section class="file-title">
-					<h1>wp-includes/ms-settings.php</h1>
-<pre><code class="php">$domain = strtolower( stripslashes( $_SERVER['HTTP_HOST'] ) );
+						<h1>wp-includes/ms-settings.php</h1>
+						<pre><code class="php">$domain = strtolower( stripslashes( $_SERVER['HTTP_HOST'] ) );
 if ( substr( $domain, -3 ) == ':80' ) {
 	$domain = substr( $domain, 0, -3 );
 	$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
@@ -384,9 +412,10 @@ if ( is_admin() ) {
 }
 list( $path ) = explode( '?', $path );</code></pre>
 					</section>
+
 					<section class="file-title">
 						<h1>wp-includes/ms-settings.php</h1>
-<pre><code class="php">// If the network is defined in wp-config.php, we can simply use that.
+						<pre><code class="php">// If the network is defined in wp-config.php, we can simply use that.
 if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
 	$current_site = new stdClass;
 	$current_site->id = defined( 'SITE_ID_CURRENT_SITE' ) ? SITE_ID_CURRENT_SITE : 1;
@@ -395,39 +424,59 @@ if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
 	if ( defined( 'BLOG_ID_CURRENT_SITE' ) ) {
 		$current_site->blog_id = BLOG_ID_CURRENT_SITE;
 	}</code></pre>
-					<h1>wp-config.php</h1>
-<pre><code class="php">define( 'DOMAIN_CURRENT_SITE', 'jeremyfelt.com' );
+						<h1>wp-config.php</h1>
+						<pre><code class="php">define( 'DOMAIN_CURRENT_SITE', 'jeremyfelt.com' );
 define( 'PATH_CURRENT_SITE',   '/'              );
 define( 'SITE_ID_CURRENT_SITE', 1               );
 define( 'BLOG_ID_CURRENT_SITE', 1               );</code></pre>
-					<aside class="notes">
-					This configuration cares nothing for whether this is a subdirectory or subdomain installation of multisite.
-					</aside>
+						<aside class="notes">
+						This configuration cares nothing for whether this is a subdirectory or subdomain installation of multisite.
+						</aside>
 					</section>
+
 					<section>
 						<h1>get_site_by_path( $domain, $path, $segments )</h1>
 						<p>$domain + $path -> $current_blog</p>
 					</section>
+
 					<section>
 						<h1>Subdirectory install</h1>
 						<p>All sites must have the same domain and different paths.</p>
 						<p>Populate $current_site based on the assumption of the requested domain and a path of '/' using get_network_by_path() if more than one network.</p>
 						<p>Populate $current_blog using get_site_by_path() once the network has been found.</p>
 					</section>
+
 					<section>
 						<h1>Subdomain install</h1>
 						<p>Sites can have different subdomains and paths. This becomes the "arbitrary configuration" option.</p>
 						<p>Populate $current_blog first using get_site_by_path().</p>
 						<p>Populate $current_site using the site_id attached to the $current_blog object.</p>
 					</section>
+
 					<section>
 						<h1>wp_usermeta / capabilities</h1>
 					</section>
+
+				</section><!-- end .structure-slides -->
+
+				<section class="awareness-slides">
+
+				</section><!-- end .awareness-slides -->
+
+				<section class="extension-slides">
+
+				</section><!-- end .extension-slides -->
+
+				<section class="future-slides">
+
+				</section><!-- end .future-slides -->
+
+				<section>
+					<h1>Final.</h1>
 				</section>
+			</div><!-- end .slides -->
 
-			</div>
-
-		</div>
+		</div><!-- end .reveal -->
 
 		<script src="reveal.js/lib/js/head.min.js"></script>
 		<script src="reveal.js/js/reveal.js"></script>
