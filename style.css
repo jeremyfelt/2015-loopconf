@@ -63,8 +63,10 @@
 }
 
 .reveal h1 .code {
-	font-size: .8em;
-	font-family: monospace;
+	font-size: .9em;
+	line-height: 1em;
+	font-family: 'Monaco', monospace;
+	padding: 0 .4em;
 }
 
 .reveal .ms-tables {
@@ -80,7 +82,7 @@
 
 .reveal .ms-tables li {
     font-size: 21px;
-    font-family: monospace;
+    font-family: 'Monaco', monospace;
 }
 
 .reveal .ms-tables-global {
@@ -153,8 +155,16 @@
 
 .reveal pre {
 	width: 100%;
+	font-size: .9em;
 }
 
 .reveal pre code {
-  max-height: 500px;
+	padding: 20px 5px 20px 10px;
+	font-family: 'Monaco', monospace;
+	color: #e6e6e6;
+	background-color: #222;
+}
+
+.reveal .hljs-comment {
+	color: #cbeff7;
 }

@@ -863,14 +863,13 @@
 					</aside>
 				</section>
 
-				<section>
-					<h1>Finding $current_site</h1>
-					<pre><code class="php">$current_site->id;            // The site_id of the network.
-$current_site->domain;        // The domain string for the network.
-$current_site->path;          // The path string for the network.
-$current_site->blog_id;       // The blog_id of the network's main site.
-                          // The domain and path match that of the
-                          // network's
+				<section style="text-align: left;">
+					<h1>Network: <span class="code">$current_site</span></h1>
+
+					<pre><code class="php">$current_site->id;        // The ID of the network in the wp_site table.
+$current_site->domain;
+$current_site->path;      // Uses leading and trailing slashes - '/path/'
+$current_site->blog_id;   // The blog_id of the network's main site.
 </code></pre>
 <pre><code class="mysql">mysql> SELECT * FROM wp_site;
 +----+---------------------------+------+
@@ -881,15 +880,16 @@ $current_site->blog_id;       // The blog_id of the network's main site.
 1 row in set (0.00 sec)</code></pre>
 				</section>
 
-				<section>
-					<h1>Finding $current_blog</h1>
-					<pre><code class="php">$current_blog->blog_id; // The blog_id of the site.
-$current_blog->site_id; // The site_id of the site's network.
-$current_blog->domain;  // The domain string for the network.
-$current_blog->path;    // The path string for the network.
-....                    // More data directly from the wp_blogs record.</code></pre>
-<pre><code class="mysql"></code></pre>
-<pre><code>mysql> SELECT blog_id, site_id, domain, path FROM wp_blogs;
+				<section style="text-align: left;">
+					<h1>Site: <span class="code">$current_blog</span></h1>
+
+					<pre><code class="php">$current_blog->blog_id; // The ID of the site in the wp_blogs table.
+$current_blog->site_id; // The ID of the site's network in the wp_site table.
+$current_blog->domain;
+$current_blog->path;    // Uses leading and trailing slashes - '/path/'
+$current_blog->....     // More data directly from the wp_blogs record.</code></pre>
+
+					<pre><code>mysql> SELECT blog_id, site_id, domain, path FROM wp_blogs;
 +---------+---------+----------------+----------+
 | blog_id | site_id | domain         | path     |
 +---------+---------+----------------+----------+
