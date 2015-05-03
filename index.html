@@ -46,7 +46,7 @@
 					<p>@jeremyfelt</p>
 				</section>
 
-				<section class="single-word-slide">
+				<section class="overview-slide">
 					<h1>History</h1>
 					<aside class="notes">
 						* History as context.
@@ -901,33 +901,38 @@ $current_blog->....     // More data directly from the wp_blogs record.</code></
 
 				<section class="file-title">
 					<h1>wp-includes/ms-settings.php</h1>
+
 					<pre><code class="php">$domain = strtolower( stripslashes( $_SERVER['HTTP_HOST'] ) );
+
 if ( substr( $domain, -3 ) == ':80' ) {
-$domain = substr( $domain, 0, -3 );
-$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
+	$domain = substr( $domain, 0, -3 );
+	$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -3 );
 } elseif ( substr( $domain, -4 ) == ':443' ) {
-$domain = substr( $domain, 0, -4 );
-$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
+	$domain = substr( $domain, 0, -4 );
+	$_SERVER['HTTP_HOST'] = substr( $_SERVER['HTTP_HOST'], 0, -4 );
 }
 
 $path = stripslashes( $_SERVER['REQUEST_URI'] );
+
 if ( is_admin() ) {
-$path = preg_replace( '#(.*)/wp-admin/.*#', '$1/', $path );
+	$path = preg_replace( '#(.*)/wp-admin/.*#', '$1/', $path );
 }
 list( $path ) = explode( '?', $path );</code></pre>
 				</section>
 
 				<section class="file-title">
 					<h1>wp-includes/ms-settings.php</h1>
-					<pre><code class="php">// If the network is defined in wp-config.php, we can simply use that.
-if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
-$current_site = new stdClass;
-$current_site->id = defined( 'SITE_ID_CURRENT_SITE' ) ? SITE_ID_CURRENT_SITE : 1;
-$current_site->domain = DOMAIN_CURRENT_SITE;
-$current_site->path = PATH_CURRENT_SITE;
-if ( defined( 'BLOG_ID_CURRENT_SITE' ) ) {
-	$current_site->blog_id = BLOG_ID_CURRENT_SITE;
-}</code></pre>
+
+					<pre class="stretched"><code class="php">if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
+
+  $current_site = new stdClass;
+  $current_site->id = defined( 'SITE_ID_CURRENT_SITE' ) ? SITE_ID_CURRENT_SITE : 1;
+  $current_site->domain = DOMAIN_CURRENT_SITE;
+  $current_site->path = PATH_CURRENT_SITE;
+
+  if ( defined( 'BLOG_ID_CURRENT_SITE' ) ) {
+    $current_site->blog_id = BLOG_ID_CURRENT_SITE;
+  }</code></pre>
 					<h1>wp-config.php</h1>
 					<pre><code class="php">define( 'DOMAIN_CURRENT_SITE', 'jeremyfelt.com' );
 define( 'PATH_CURRENT_SITE',   '/'              );
