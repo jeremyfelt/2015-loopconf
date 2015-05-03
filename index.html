@@ -461,6 +461,83 @@ define( 'BLOG_ID_CURRENT_SITE', 1               );</code></pre>
 
 				<section class="awareness-slides">
 
+					<section>
+						<h1>Awareness</h1>
+						<p>Or. Establishing the context of your existence.</p>
+					</section>
+
+					<section>
+						<h1>wp-content/sunrise.php</h1>
+						<p>Provide the context yourself.</p>
+						<aside class="notes">sunrise allows you to hook in before anything else is done in WordPress and determine what this page load will become. This is where you can do very custom, purposeful things that could normally be handled further down in the stack (nginx config) or up in the stack (WordPress plugin.)
+					</section>
+
+					<section>
+						<pre><code>//Capture the domain and path from the current request
+$req_domain    = $_SERVER['HTTP_HOST'];
+$req_uri       = trim( $_SERVER['REQUEST_URI'], '/' );
+
+// We currently support one subdirectory deep, and therefore
+// only look at the first path level.
+$req_uri_parts = explode( '/', $req_uri );
+$req_path = $req_uri_parts[0] . '/';
+
+wp_cache_add_global_groups( 'wsuwp:network' );
+wp_cache_add_global_groups( 'wsuwp:site' );
+
+// If we're dealing with a root domain, we want to leave it
+// at a path of '/'
+if ( '/' !== $req_path ) {
+	$req_path = '/' . $req_path;
+}
+
+if ( ! $current_blog = wp_cache_get( $req_domain . $req_path, 'wsuwp:site' ) ) {</code></pre>
+						<aside class="notes">Caching the request makes all future lookups easy. We clear the cache for a domain/path combination whenever a new site is created, and conflicts are less possible the other way around - when a page is created.</aside>
+					</section>
+
+					<section>
+						<pre><code>// Start with the assumption that SSL is available for this domain.
+$current_blog->ssl_enabled = true;
+// We're looking for a base option name of foo.bar.com_ssl_disabled
+$ssl_domain_check = $requested_domain . '_ssl_disabled';
+$non_ssl_domain = $wpdb->get_row( $wpdb->prepare( "SELECT option_id FROM {$wpdb->base_prefix}options WHERE option_name = %s", $ssl_domain_check ) );
+if ( is_object( $non_ssl_domain ) ) {
+	$current_blog->ssl_enabled = false;
+}
+wp_cache_add( $requested_domain . $requested_path, $current_blog, 'wsuwp:site', 60 * 60 * 12 );</code></pre>
+						<pre><code>if ( isset( $current_blog->ssl_enabled ) && true === $current_blog->ssl_enabled && false === WSU_LOCAL_CONFIG ) {
+	define( 'FORCE_SSL_ADMIN', true );
+	define( 'FORCE_SSL_LOGIN', true );
+}</code></pre>
+						<aside class="notes">We also check to see if the domain supports HTTPS. We assume by default that it does and then do a quick lookup to determine if it has been flagged as not having a cert yet.</aside>
+					</section>
+
+					<section>
+						<h1>switch_to_blog()</h1>
+						<pre><code>$wpdb->set_blog_id( $new_blog );
+$GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();
+$prev_blog_id = $GLOBALS['blog_id'];
+$GLOBALS['blog_id'] = $new_blog;</code></pre>
+						<p>Switches the global <code>$blog_id</code>, database table prefix, cache group, and user capabilities.</p>
+						<p>Plugins and themes are already loaded at this point for the initial site and do not switch.
+					</section>
+
+					<section>
+						<h1>restore_current_blog()</h1>
+						<pre><code>$wpdb->set_blog_id( $blog );
+$prev_blog_id = $GLOBALS['blog_id'];
+$GLOBALS['blog_id'] = $blog;
+$GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();</code></pre>
+						<p>Using the <code>_wp_switched_stack</code> that WP maintains, we're able to switch back down to where we started. It can even be usefull to loop this until it returns false if you don't have a way of tracking how many times it can be called.</p>
+					</section>
+
+					<section>
+						<h1>is_main_site()</h1>
+						<h1>get_blog_details()</h1>
+						<h1>is_main_network()</h1>
+						<h1>get_current_site()</h1>
+					</section>
+
 				</section><!-- end .awareness-slides -->
 
 				<section class="extension-slides">
