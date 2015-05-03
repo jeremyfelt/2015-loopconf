@@ -17,8 +17,11 @@ module.exports = function(grunt) {
 		},
 
 		watch: {
+			options: {
+				livereload: true
+			},
             html: {
-                files: [ 'index.html']
+                files: [ 'index.html', 'style.css' ]
             }
 		}
 
