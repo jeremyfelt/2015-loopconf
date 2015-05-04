@@ -1044,14 +1044,35 @@ function get_network_by_path( $domain, $path, $segments = null ) {
 					<aside class="notes">Or. Establishing the context of your existence.</aside>
 				</section>
 
-				<section>
-					<h1>wp-content/sunrise.php</h1>
-					<p>Provide the context yourself.</p>
+				<section class="file-title">
+					<h1>wp-includes/ms-settings.php</h1>
+
+					<pre><code>/** Include Multisite initialization functions */
+require_once( ABSPATH . WPINC . '/ms-load.php' );
+require_once( ABSPATH . WPINC . '/ms-default-constants.php' );
+
+if ( defined( 'SUNRISE' ) ) {
+	// Load custom logic to find a network and site.
+	include_once( WP_CONTENT_DIR . '/sunrise.php' );
+}
+
+ms_subdomain_constants();
+
+if ( !isset( $current_site ) || !isset( $current_blog ) ) {
+	// Default core logic to find a network and site.
+}
+
+$wpdb->set_prefix( $table_prefix, false );
+$wpdb->set_blog_id( $current_blog->blog_id, $current_blog->site_id );
+$table_prefix = $wpdb->get_blog_prefix();</code></pre>
+
 					<aside class="notes">sunrise allows you to hook in before anything else is done in WordPress and determine what this page load will become. This is where you can do very custom, purposeful things that could normally be handled further down in the stack (nginx config) or up in the stack (WordPress plugin.)
 				</section>
 
-				<section>
-					<pre><code>//Capture the domain and path from the current request
+				<section class="file-title">
+					<h1>wp-content/sunrise.php</h1>
+
+					<pre class="stretched"><code>//Capture the domain and path from the current request
 $req_domain    = $_SERVER['HTTP_HOST'];
 $req_uri       = trim( $_SERVER['REQUEST_URI'], '/' );
 
@@ -1066,54 +1087,131 @@ wp_cache_add_global_groups( 'wsuwp:site' );
 // If we're dealing with a root domain, we want to leave it
 // at a path of '/'
 if ( '/' !== $req_path ) {
-$req_path = '/' . $req_path;
+	$req_path = '/' . $req_path;
 }
 
 if ( ! $current_blog = wp_cache_get( $req_domain . $req_path, 'wsuwp:site' ) ) {</code></pre>
 					<aside class="notes">Caching the request makes all future lookups easy. We clear the cache for a domain/path combination whenever a new site is created, and conflicts are less possible the other way around - when a page is created.</aside>
 				</section>
 
-				<section>
-					<pre><code>// Start with the assumption that SSL is available for this domain.
+				<section class="file-title">
+					<h1>wp-content/sunrise.php</h1>
+
+					<pre class="stretched"><code>// Start with the assumption that SSL is available for this domain.
 $current_blog->ssl_enabled = true;
 // We're looking for a base option name of foo.bar.com_ssl_disabled
 $ssl_domain_check = $requested_domain . '_ssl_disabled';
-$non_ssl_domain = $wpdb->get_row( $wpdb->prepare( "SELECT option_id FROM {$wpdb->base_prefix}options WHERE option_name = %s", $ssl_domain_check ) );
+$non_ssl_domain = $wpdb->get_row( $wpdb->prepare( "SELECT option_id FROM [...]" ) );
+
 if ( is_object( $non_ssl_domain ) ) {
-$current_blog->ssl_enabled = false;
+	$current_blog->ssl_enabled = false;
 }
-wp_cache_add( $requested_domain . $requested_path, $current_blog, 'wsuwp:site', 60 * 60 * 12 );</code></pre>
-					<pre><code>if ( isset( $current_blog->ssl_enabled ) && true === $current_blog->ssl_enabled && false === WSU_LOCAL_CONFIG ) {
-define( 'FORCE_SSL_ADMIN', true );
-define( 'FORCE_SSL_LOGIN', true );
+
+wp_cache_add( $req_domain . $req_path, $current_blog, 'wsuwp:site', 60 * 60 * 12 );</code></pre>
+					<pre class="stretched"><code>if ( isset( $current_blog->ssl_enabled ) && true === $current_blog->ssl_enabled ) {
+	define( 'FORCE_SSL_ADMIN', true );
+	define( 'FORCE_SSL_LOGIN', true );
 }</code></pre>
 					<aside class="notes">We also check to see if the domain supports HTTPS. We assume by default that it does and then do a quick lookup to determine if it has been flagged as not having a cert yet.</aside>
 				</section>
 
 				<section>
-					<h1>switch_to_blog()</h1>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+
 					<pre><code>$wpdb->set_blog_id( $new_blog );
 $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();
 $prev_blog_id = $GLOBALS['blog_id'];
 $GLOBALS['blog_id'] = $new_blog;</code></pre>
-					<p>Switches the global <code>$blog_id</code>, database table prefix, cache group, and user capabilities.</p>
-					<p>Plugins and themes are already loaded at this point for the initial site and do not switch.
+
+					<div style="text-align: left;">
+						<p>Switches:
+							<ul>
+								<li>global <code>$blog_id</code></li>
+								<li>database table prefix</li>
+								<li>cache group</li>
+								<li>user capabilities</li>
+							</ul>
+						</p>
+						<p>Does not switch plugins or themes</p>
+					</div>
+
 				</section>
 
 				<section>
-					<h1>restore_current_blog()</h1>
-					<pre><code>$wpdb->set_blog_id( $blog );
+					<h1><span class="code">restore_current_blog()</span></h1>
+
+					<pre><code>if ( empty( $GLOBALS['_wp_switched_stack'] ) )
+	return false;
+
+$blog = array_pop( $GLOBALS['_wp_switched_stack'] );
+
+// ...
+
+$wpdb->set_blog_id( $blog );
 $prev_blog_id = $GLOBALS['blog_id'];
 $GLOBALS['blog_id'] = $blog;
 $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();</code></pre>
-					<p>Using the <code>_wp_switched_stack</code> that WP maintains, we're able to switch back down to where we started. It can even be usefull to loop this until it returns false if you don't have a way of tracking how many times it can be called.</p>
+
+					<aside class="notes">Using the global <code>_wp_switched_stack</code> WP maintains, we're able to switch back down to where we started. Can be useful to loop this until it returns false.</aside>
 				</section>
 
 				<section>
-					<h1>is_main_site()</h1>
-					<h1>get_blog_details()</h1>
-					<h1>is_main_network()</h1>
-					<h1>get_current_site()</h1>
+					<h1><span class="code">is_main_site()</span></h1>
+
+					<pre><code>function is_main_site( $site_id = null ) {
+	// This is the current network's information
+	global $current_site;
+
+	if ( ! is_multisite() )
+		return true;
+
+	if ( ! $site_id )
+		$site_id = get_current_blog_id();
+
+	return (int) $site_id === (int) $current_site->blog_id;
+}</code></pre>
+				</section>
+
+				<section>
+					<h1><span class="code">is_main_network()</span></h1>
+
+					<pre><code>function is_main_network( $network_id = null ) {
+	global $wpdb;
+
+	if ( ! is_multisite() )
+		return true;
+
+	$current_network_id = (int) get_current_site()->id;
+
+	if ( ! $network_id )
+		$network_id = $current_network_id;
+	$network_id = (int) $network_id;
+
+	if ( defined( 'PRIMARY_NETWORK_ID' ) )
+		return $network_id === (int) PRIMARY_NETWORK_ID;
+
+	if ( 1 === $current_network_id )
+		return $network_id === $current_network_id;
+
+	$primary_network_id = (int) wp_cache_get( 'primary_network_id', 'site-options' );
+
+	if ( $primary_network_id )
+		return $network_id === $primary_network_id;
+
+	$primary_network_id = (int) $wpdb->get_var( "SELECT id FROM $wpdb->site ORDER BY id LIMIT 1" );
+	wp_cache_add( 'primary_network_id', $primary_network_id, 'site-options' );
+
+	return $network_id === $primary_network_id;
+}</code></pre>
+				</section>
+
+				<section class="so-many-h1" style="text-align: left;">
+					<h1><span class="code">switch_to_blog()</span></h1>
+					<h1><span class="code">restore_current_blog()</span></h1>
+					<h1><span class="code">is_main_site()</span></h1>
+					<h1><span class="code">is_main_network()</span></h1>
+					<h1><span class="code">get_blog_details()</span></h1>
+					<h1><span class="code">get_current_site()</span></h1>
 				</section>
 
 				<section class="overview-slide">

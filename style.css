@@ -4,7 +4,8 @@
 .reveal h4,
 .reveal h5,
 .reveal h6,
-.reveal p {
+.reveal p,
+.reveal ul {
 	font-family: 'Lato', sans-serif;
 	font-weight: 300;
 }
@@ -80,6 +81,16 @@
 	font-family: 'Monaco', monospace;
 }
 
+.reveal .so-many-h1 h1 {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2em;
+}
+
+.reveal .so-many-h1 h1 .code {
+	font-size: .75em;
+	line-height: .85em;
+}
 .reveal h2.code {
 	padding: 0 0 0 0;
 }
