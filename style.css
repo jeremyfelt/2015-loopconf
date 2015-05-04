@@ -9,8 +9,12 @@
 	font-weight: 300;
 }
 
-.reveal h1 {
+.reveal h1,
+.reveal h2 {
 	text-transform: none;
+}
+
+.reveal h1 {
 	font-size: 3.5em;
 }
 
@@ -18,16 +22,20 @@
 	background-color: #2a3033;
 }
 
-.title-slide h1 {
+.reveal .title-slide {
+	text-align: left;
+}
+
+.reveal .title-slide h1 {
 	font-size: 9em;
 }
 
-.title-slide p {
+.reveal .title-slide p {
 	font-size: 1.6em;
 	padding-left: .4em;
 }
 
-.single-word-slide h1 {
+.reveal .single-word-slide h1 {
 	font-size: 6em;
 }
 
@@ -61,11 +69,19 @@
 	font-family: 'Monaco', monospace;
 }
 
-.reveal h1 .code {
-	font-size: .9em;
-	line-height: 1em;
+.reveal .code {
 	font-family: 'Monaco', monospace;
 	padding: 0 .4em;
+}
+
+.reveal h1 .code {
+	font-size: .85em;
+	line-height: 1em;
+	font-family: 'Monaco', monospace;
+}
+
+.reveal h2.code {
+	padding: 0 0 0 0;
 }
 
 .reveal .ms-tables {
