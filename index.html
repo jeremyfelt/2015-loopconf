@@ -990,7 +990,7 @@ function get_network_by_path( $domain, $path, $segments = null ) {
 					<p>All sites on a network have the same domain and different paths</p>
 					<p>Populate <span class="code">$current_site</span> first</p>
 					<p>If more than one network exists, use <span class="code">get_network_by_path()</span></p>
-					<p>Populate <span class="code">$current_site</span> using <span class="code">get_site_by_path()</span></p>
+					<p>Populate <span class="code">$current_blog</span> using <span class="code">get_site_by_path()</span></p>
 
 					<pre><code>mysql> SELECT blog_id, site_id, domain, path FROM wp_blogs;
 +---------+---------+----------------+----------+
