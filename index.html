@@ -71,15 +71,13 @@
 					<h1>b2-smarty</h1>
 					<p>February 27, 2003</p>
 					<img title="https://web.archive.org/web/20030610000416/http://tidakada.com/board/viewtopic.php?t=2438" src="images/b2-smarty-announce.png">
+					<aside class="notes">Donncha Ó Caoimh</aside>
 				</section>
 
 				<section>
 					<h1>b2++</h1>
 					<p>April 17, 2003</p>
 					<img title="https://web.archive.org/web/20030719044701/http://blogs.linux.ie/" src="images/blogs.linux.ie.png">
-					<aside class="notes">
-						Donncha Ó Caoimh, named b2-smarty
-					</aside>
 				</section>
 
 				<section>
@@ -112,20 +110,8 @@
 
 				<section>
 					<h1>WordPress.com</h1>
-					<p>August 8, 2005 | 142 changesets</p>
-					<p>The first beta release.</p>
-				</section>
-
-				<section>
-					<h1>WordPress.com</h1>
-					<p>September 28, 2005 | 378 changesets</p>
-					<img src="images/a-golden-ticket.png">
-				</section>
-
-				<section>
-					<h1>WordPress.com</h1>
-					<p>November 21, 2005 | 443 changesets</p>
-					<p>Public release.</p>
+					<p>August 8, 2005 | 142 changesets | First beta</p>
+					<p class="fragment">November 21, 2005 | 443 changesets | Public release</p>
 				</section>
 
 				<section>
@@ -1020,6 +1006,291 @@ function get_network_by_path( $domain, $path, $segments = null ) {
 |       3 |       2 | alsoadomain.com       | /howdy/  |
 +---------+---------+-----------------------+----------+
 3 rows in set (0.00 sec)</code></pre>
+				</section>
+
+				<section class="db-slide db-slide-five">
+					<h1>The Database</h1>
+
+					<div class="ms-tables ms-tables-base" data-markdown>
+						* wp_options
+						* wp_posts
+						* wp_postmeta
+						* wp_comments
+						* wp_commentmeta
+						* wp_terms
+						* wp_term_taxonomy
+						* wp_term_relationships
+					</div>
+
+					<div class="ms-tables-global">
+						<div class="ms-tables ms-tables-repurpose" data-markdown>
+							* wp_users
+							* wp_usermeta
+						</div>
+
+						<div class="ms-tables ms-tables-multisite" data-markdown>
+							* wp_blogs
+							* wp_blog_versions
+							* wp_registration_log
+							* wp_signups
+							* wp_site
+							* wp_sitemeta
+						</div>
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_2_options
+						* wp_2_posts
+						* wp_2_postmeta
+						* wp_2_comments
+						* wp_2_commentmeta
+						* wp_2_terms
+						* wp_2_term_taxonomy
+						* wp_2_term_relationships
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_3_options
+						* wp_3_posts
+						* wp_3_postmeta
+						* wp_3_comments
+						* wp_3_commentmeta
+						* wp_3_terms
+						* wp_3_term_taxonomy
+						* wp_3_term_relationships							
+					</div>
+
+					<div class="clear"></div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_4_options
+						* wp_4_posts
+						* wp_4_postmeta
+						* wp_4_comments
+						* wp_4_commentmeta
+						* wp_4_terms
+						* wp_4_term_taxonomy
+						* wp_4_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_5_options
+						* wp_5_posts
+						* wp_5_postmeta
+						* wp_5_comments
+						* wp_5_commentmeta
+						* wp_5_terms
+						* wp_5_term_taxonomy
+						* wp_5_term_relationships
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_6_options
+						* wp_6_posts
+						* wp_6_postmeta
+						* wp_6_comments
+						* wp_6_commentmeta
+						* wp_6_terms
+						* wp_6_term_taxonomy
+						* wp_6_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_7_options
+						* wp_7_posts
+						* wp_7_postmeta
+						* wp_7_comments
+						* wp_7_commentmeta
+						* wp_7_terms
+						* wp_7_term_taxonomy
+						* wp_7_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_8_options
+						* wp_8_posts
+						* wp_8_postmeta
+						* wp_8_comments
+						* wp_8_commentmeta
+						* wp_8_terms
+						* wp_8_term_taxonomy
+						* wp_8_term_relationships
+					</div>
+
+					<div class="clear"></div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_9_options
+						* wp_9_posts
+						* wp_9_postmeta
+						* wp_9_comments
+						* wp_9_commentmeta
+						* wp_9_terms
+						* wp_9_term_taxonomy
+						* wp_9_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_10_options
+						* wp_10_posts
+						* wp_10_postmeta
+						* wp_10_comments
+						* wp_10_commentmeta
+						* wp_10_terms
+						* wp_10_term_taxonomy
+						* wp_10_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_11_options
+						* wp_11_posts
+						* wp_11_postmeta
+						* wp_11_comments
+						* wp_11_commentmeta
+						* wp_11_terms
+						* wp_11_term_taxonomy
+						* wp_11_term_relationships
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_12_options
+						* wp_12_posts
+						* wp_12_postmeta
+						* wp_12_comments
+						* wp_12_commentmeta
+						* wp_12_terms
+						* wp_12_term_taxonomy
+						* wp_12_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_13_options
+						* wp_13_posts
+						* wp_13_postmeta
+						* wp_13_comments
+						* wp_13_commentmeta
+						* wp_13_terms
+						* wp_13_term_taxonomy
+						* wp_13_term_relationships							
+					</div>
+
+					<div class="clear"></div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_14_options
+						* wp_14_posts
+						* wp_14_postmeta
+						* wp_14_comments
+						* wp_14_commentmeta
+						* wp_14_terms
+						* wp_14_term_taxonomy
+						* wp_14_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_15_options
+						* wp_15_posts
+						* wp_15_postmeta
+						* wp_15_comments
+						* wp_15_commentmeta
+						* wp_15_terms
+						* wp_15_term_taxonomy
+						* wp_15_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_16_options
+						* wp_16_posts
+						* wp_16_postmeta
+						* wp_16_comments
+						* wp_16_commentmeta
+						* wp_16_terms
+						* wp_16_term_taxonomy
+						* wp_16_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_17_options
+						* wp_17_posts
+						* wp_17_postmeta
+						* wp_17_comments
+						* wp_17_commentmeta
+						* wp_17_terms
+						* wp_17_term_taxonomy
+						* wp_17_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_18_options
+						* wp_18_posts
+						* wp_18_postmeta
+						* wp_18_comments
+						* wp_18_commentmeta
+						* wp_18_terms
+						* wp_18_term_taxonomy
+						* wp_18_term_relationships							
+					</div>
+
+					<div class="clear"></div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_19_options
+						* wp_19_posts
+						* wp_19_postmeta
+						* wp_19_comments
+						* wp_19_commentmeta
+						* wp_19_terms
+						* wp_19_term_taxonomy
+						* wp_19_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_20_options
+						* wp_20_posts
+						* wp_20_postmeta
+						* wp_20_comments
+						* wp_20_commentmeta
+						* wp_20_terms
+						* wp_20_term_taxonomy
+						* wp_20_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_21_options
+						* wp_21_posts
+						* wp_21_postmeta
+						* wp_21_comments
+						* wp_21_commentmeta
+						* wp_21_terms
+						* wp_21_term_taxonomy
+						* wp_21_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_22_options
+						* wp_22_posts
+						* wp_22_postmeta
+						* wp_22_comments
+						* wp_22_commentmeta
+						* wp_22_terms
+						* wp_22_term_taxonomy
+						* wp_22_term_relationships							
+					</div>
+
+					<div class="ms-tables ms-tables-new-site" data-markdown>
+						* wp_23_options
+						* wp_23_posts
+						* wp_23_postmeta
+						* wp_23_comments
+						* wp_23_commentmeta
+						* wp_23_terms
+						* wp_23_term_taxonomy
+						* wp_23_term_relationships							
+					</div>
+
+					<aside class="notes">
+					Multisite is basically using the global blogs and sites tables to figure out what other set of tables to use for the request. After that, almost everything it does is exactly the same as single site for most page loads. Remember this as it's key to understanding many things in multisite and we'll touch on it again later.
+					</aside>
 				</section>
 
 				<section>
