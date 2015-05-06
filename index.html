@@ -803,6 +803,44 @@ $current_blog->....     // More data directly from the wp_blogs record.</code></
 2 rows in set (0.00 sec)</code></pre>
 				</section>
 
+				<section>
+					<h1><span class="code">get_site_by_path()</span></h1>
+					<pre><code>/**
+ * Retrieve a site object by its domain and path.
+ *
+ * @param string   $domain   Domain to check.
+ * @param string   $path     Path to check.
+ * @param int|null $segments Path segments to use.
+ */
+function get_site_by_path( $domain, $path, $segments = null ) {
+
+  // Use $wpdb to find matching site data from wp_blogs
+  $site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs 
+    WHERE domain = %s AND path = %s", $domains[0], $paths[0] ) );
+
+}</code></pre>
+				</section>
+
+				<section>
+					<h1><span class="code">get_network_by_path()</span></h1>
+
+					<pre><code>/**
+ * Retrieve a network object by its domain and path.
+ *
+ * @param string   $domain   Domain to check.
+ * @param string   $path     Path to check.
+ * @param int|null $segments Path segments to use.
+ */
+function get_network_by_path( $domain, $path, $segments = null ) {
+
+  // Use $wpdb to find matching network data from wp_site
+  $networks = $wpdb->get_results( "SELECT id, domain, path FROM $wpdb->site
+    WHERE domain IN ($search_domains) AND path IN ($search_paths)
+    ORDER BY CHAR_LENGTH(domain) DESC, CHAR_LENGTH(path) DESC" );
+
+}</code></pre>
+				</section>
+				
 				<section class="file-title">
 					<h1>wp-includes/ms-settings.php</h1>
 
@@ -845,44 +883,6 @@ define( 'BLOG_ID_CURRENT_SITE', 1               );</code></pre>
 					<aside class="notes">
 					This configuration cares nothing for whether this is a subdirectory or subdomain installation of multisite.
 					</aside>
-				</section>
-
-				<section>
-					<h1><span class="code">get_site_by_path()</span></h1>
-					<pre><code>/**
- * Retrieve a site object by its domain and path.
- *
- * @param string   $domain   Domain to check.
- * @param string   $path     Path to check.
- * @param int|null $segments Path segments to use.
- */
-function get_site_by_path( $domain, $path, $segments = null ) {
-
-  // Use $wpdb to find matching site data from wp_blogs
-  $site = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->blogs 
-    WHERE domain = %s AND path = %s", $domains[0], $paths[0] ) );
-
-}</code></pre>
-				</section>
-
-				<section>
-					<h1><span class="code">get_network_by_path()</span></h1>
-
-					<pre><code>/**
- * Retrieve a network object by its domain and path.
- *
- * @param string   $domain   Domain to check.
- * @param string   $path     Path to check.
- * @param int|null $segments Path segments to use.
- */
-function get_network_by_path( $domain, $path, $segments = null ) {
-
-  // Use $wpdb to find matching network data from wp_site
-  $networks = $wpdb->get_results( "SELECT id, domain, path FROM $wpdb->site
-    WHERE domain IN ($search_domains) AND path IN ($search_paths)
-    ORDER BY CHAR_LENGTH(domain) DESC, CHAR_LENGTH(path) DESC" );
-
-}</code></pre>
 				</section>
 
 				<section style="text-align: left;">
