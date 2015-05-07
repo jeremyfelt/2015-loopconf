@@ -87,8 +87,6 @@
 					<h1>Structure</h1>
 				</section>
 				<section class="db-slide-zero">
-					<h1>The Database</h1>
-
 					<div class="ms-tables ms-tables-base" data-markdown>
 						* wp_options
 						* wp_posts
@@ -108,8 +106,6 @@
 				</section>
 
 				<section class="db-slide-one">
-					<h1>The Database</h1>
-
 					<div class="ms-tables ms-tables-base" data-markdown>
 						* wp_options
 						* wp_posts
@@ -140,8 +136,6 @@
 				</section>
 
 				<section class="db-slide db-slide-two">
-					<h1>The Database</h1>
-
 					<div class="ms-tables ms-tables-base" data-markdown>
 						* wp_options
 						* wp_posts
@@ -204,8 +198,6 @@
 				</section>
 
 				<section class="db-slide db-slide-three">
-					<h1>The Database</h1>
-
 					<div class="ms-tables ms-tables-base" data-markdown>
 						* wp_options
 						* wp_posts
@@ -303,8 +295,6 @@
 				</section>
 
 				<section class="db-slide db-slide-four">
-					<h1>The Database</h1>
-
 					<div class="ms-tables ms-tables-base" data-markdown>
 						* wp_options
 						* wp_posts
@@ -483,7 +473,7 @@
 				</section>
 
 				<section class="db-slide db-slide-five">
-					<h1>The Database</h1>
+
 
 					<div class="ms-tables ms-tables-base" data-markdown>
 						* wp_options
@@ -840,7 +830,7 @@ function get_network_by_path( $domain, $path, $segments = null ) {
 
 }</code></pre>
 				</section>
-				
+
 				<section class="file-title">
 					<h1>wp-includes/ms-settings.php</h1>
 
@@ -908,7 +898,7 @@ define( 'BLOG_ID_CURRENT_SITE', 1               );</code></pre>
 					<h1>Subdomain Configuration</h1>
 
 					<p>Sites on a network have different subdomains</p>
-					<p>Sites can also have different paths. By default all sites use <span class="code">/</span></p>
+					<p>Sites can also have different paths.</p>
 					<p>Populate <span class="code">$current_blog</span> first using <span class="code">get_site_by_path()</span></p>
 					<p>Populate <span class="code">$current_site</span> using the site_id attached to the <span class="code">$current_blog</span> object</p>
 
@@ -924,8 +914,6 @@ define( 'BLOG_ID_CURRENT_SITE', 1               );</code></pre>
 				</section>
 
 				<section class="db-slide db-slide-five">
-					<h1>The Database</h1>
-
 					<div class="ms-tables ms-tables-base" data-markdown>
 						* wp_options
 						* wp_posts
@@ -1226,8 +1214,6 @@ define( 'BLOG_ID_CURRENT_SITE', 1               );</code></pre>
 
 				<section class="overview-slide">
 					<h1>Awareness</h1>
-					<p>Establishing the context of existence.</p>
-					<aside class="notes">Or. Establishing the context of your existence.</aside>
 				</section>
 
 				<section class="file-title">
@@ -1393,17 +1379,24 @@ $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();</code></pre>
 
 				<section>
 					<h1>Must Use Plugins</h1>
-					
 					<p>wp-content/mu-plugins/</p>
+
+					<img src="images/mu-plugins-wsu.png">
 				</section>
 
 				<section>
 					<h1>Domain "Mapping"</h1>
+
+					<img src="images/mercator-aliases.png">
+
 					<p>Mercator - https://github.com/humanmade/Mercator</p>
 				</section>
 
 				<section>
 					<h1>Multiple Networks</h1>
+
+					<img src="images/wp-multi-network.png">
+
 					<p>WP Multi Network - https://wordpress.org/plugins/wp-multi-network/</p>
 				</section>
 
