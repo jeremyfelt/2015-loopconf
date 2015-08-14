@@ -1286,6 +1286,22 @@ wp_cache_add( $req_domain . $req_path, $current_blog, 'wsuwp:site', 60 * 60 * 12
 
 				<section>
 					<h1><span class="code">switch_to_blog( $id )</span></h1>
+				</section>
+
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+
+					<pre><code>$GLOBALS['_wp_switched_stack'][] = $GLOBALS['blog_id'];
+// ...
+$GLOBALS['switched'] = true;</code></pre>
+
+					<div style="text-align: left;">
+						<p>Store a record of the current context in an array that we can walk back through.</p>
+					</div>
+				</section>
+
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
 
 					<pre><code>$wpdb->set_blog_id( $new_blog );
 $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();
@@ -1293,19 +1309,75 @@ $prev_blog_id = $GLOBALS['blog_id'];
 $GLOBALS['blog_id'] = $new_blog;</code></pre>
 
 					<div style="text-align: left;">
-						<p>Switches:
+						<p>Context changes:
 							<ul>
-								<li>global <code>$blog_id</code></li>
-								<li>database table prefix</li>
-								<li>cache group</li>
-								<li>user capabilities</li>
+								<li><code>$blog_id</code> property of <code>$wpdb</code></li>
+								<li>Database table prefix used by <code>$wpdb</code> to <code>wp_#_</code> from <code>wp_</code></li>
+								<li>Global <code>$blog_id</code></li>
 							</ul>
 						</p>
-						<p>Does not switch plugins or themes</p>
 					</div>
 
 				</section>
 
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+
+					<pre><code>wp_cache_init();
+wp_cache_add_global_groups( $global_groups );
+wp_cache_add_non_persistent_groups( array( ... ) );</code></pre>
+
+					<div style="text-align: left;">
+						<p>Context changes:
+							<ul>
+								<li>Uses the global <code>$table_prefix</code> to reinitialize object cache with keys for the switched site.</li>
+							</ul>
+						</p>
+					</div>
+				</section>
+
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+
+					<pre><code>$wp_roles->reinit();
+$current_user = wp_get_current_user();
+$current_user->for_blog( $new_blog );</code></pre>
+
+					<div style="text-align: left;">
+						<p>Context changes:
+							<ul>
+								<li>Uses <code>$wpdb->get_blog_prefix()</code> to set a prefix for grabbing <code>wp_#_user_roles</code> from <code>get_option()</code></li>
+							</ul>
+					</div>
+				</section>
+
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+
+					<pre><code>// Delete the rewrite_rules option from
+// the switched site. Good!
+delete_option( 'rewrite_rules' );
+
+// Build the permalink structure in the
+// context of the main site. Bad!
+$this->rewrite_rules();
+
+// Update the rewrite_rules option for the
+// switched site. Horrible!
+update_option( 'rewrite_rules', $this->rules );</code></pre>
+					<div style="text-align: left;">
+						<p>Does not change the context of rewrite rules.</p>
+					</div>
+				</section>
+
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+
+					<div style="text-align: left;">
+						<p>Does not change the context of code.</p>
+						<p>Only the theme and plugins activated for the original site will be available.</p>
+					</div>
+				</section>
 				<section>
 					<h1><span class="code">restore_current_blog()</span></h1>
 
