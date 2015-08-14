@@ -74,7 +74,7 @@
 
 				<section class="overview-slide">
 					<h1>Structure</h1>
-					<h1>Awareness</h1>
+					<h1>Context</h1>
 					<h1>Extension</h1>
 					<aside class="notes">
 						* Provide the structure of multisite by showing what happens behind the scenes when a multisite request is made.
@@ -1209,10 +1209,6 @@ define( 'BLOG_ID_CURRENT_SITE', 1               );</code></pre>
 6 rows in set (0.00 sec)</code></pre>
 				</section>
 
-				<section class="overview-slide">
-					<h1>Awareness</h1>
-				</section>
-
 				<section class="file-title">
 					<h1>wp-includes/ms-settings.php</h1>
 
@@ -1282,6 +1278,10 @@ wp_cache_add( $req_domain . $req_path, $current_blog, 'wsuwp:site', 60 * 60 * 12
 	define( 'FORCE_SSL_LOGIN', true );
 }</code></pre>
 					<aside class="notes">We also check to see if the domain supports HTTPS. We assume by default that it does and then do a quick lookup to determine if it has been flagged as not having a cert yet.</aside>
+				</section>
+
+				<section class="overview-slide">
+					<h1>Context</h1>
 				</section>
 
 				<section>
