@@ -1393,9 +1393,25 @@ $prev_blog_id = $GLOBALS['blog_id'];
 $GLOBALS['blog_id'] = $blog;
 $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();</code></pre>
 
+					<div style="text-align: left;">
+						<p>Restore context to the last used site via <code>$GLOBALS['_wp_switched_stack']</code>.</p>
+					</div>
+
 					<aside class="notes">Using the global <code>_wp_switched_stack</code> WP maintains, we're able to switch back down to where we started. Can be useful to loop this until it returns false.</aside>
 				</section>
 
+				<section>
+					<h1><span class="code">ms_is_switched()</span></h1>
+
+					<pre><code class="php">// Loop until $GLOBALS['_wp_switched_stack'] is clear.
+while ( ms_is_switched() ) {
+	restore_current_blog();
+}</code></pre>
+
+					<div style="text-align: left;">
+						<p>Determine if context is switched and when we're back to normal.</p>
+					</div>
+				</section>
 				<section>
 					<h1><span class="code">is_main_site()</span></h1>
 
