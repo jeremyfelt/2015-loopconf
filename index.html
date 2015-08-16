@@ -3,9 +3,9 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>Zen and the Art of Multisite Maintenance</title>
+		<title>Behind the curtain of WordPress multisite</title>
 
-		<meta name="description" content="Slides for a talk on WordPress multisite at LoopConf 2015">
+		<meta name="description" content="Slides for a talk on WordPress multisite at WordCamp Vancouver 2015">
 		<meta name="author" content="Jeremy Felt">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -74,7 +74,7 @@
 
 				<section class="overview-slide">
 					<h1>Structure</h1>
-					<h1>Awareness</h1>
+					<h1>Context</h1>
 					<h1>Extension</h1>
 					<aside class="notes">
 						* Provide the structure of multisite by showing what happens behind the scenes when a multisite request is made.
@@ -1209,10 +1209,6 @@ define( 'BLOG_ID_CURRENT_SITE', 1               );</code></pre>
 6 rows in set (0.00 sec)</code></pre>
 				</section>
 
-				<section class="overview-slide">
-					<h1>Awareness</h1>
-				</section>
-
 				<section class="file-title">
 					<h1>wp-includes/ms-settings.php</h1>
 
@@ -1284,6 +1280,26 @@ wp_cache_add( $req_domain . $req_path, $current_blog, 'wsuwp:site', 60 * 60 * 12
 					<aside class="notes">We also check to see if the domain supports HTTPS. We assume by default that it does and then do a quick lookup to determine if it has been flagged as not having a cert yet.</aside>
 				</section>
 
+				<section class="overview-slide">
+					<h1>Context</h1>
+				</section>
+
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+				</section>
+
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+
+					<pre><code>$GLOBALS['_wp_switched_stack'][] = $GLOBALS['blog_id'];
+// ...
+$GLOBALS['switched'] = true;</code></pre>
+
+					<div style="text-align: left;">
+						<p>Store a record of the current context in an array that we can walk back through.</p>
+					</div>
+				</section>
+
 				<section>
 					<h1><span class="code">switch_to_blog( $id )</span></h1>
 
@@ -1293,19 +1309,76 @@ $prev_blog_id = $GLOBALS['blog_id'];
 $GLOBALS['blog_id'] = $new_blog;</code></pre>
 
 					<div style="text-align: left;">
-						<p>Switches:
+						<p>Context changes:
 							<ul>
-								<li>global <code>$blog_id</code></li>
-								<li>database table prefix</li>
-								<li>cache group</li>
-								<li>user capabilities</li>
+								<li><code>$blog_id</code> property of <code>$wpdb</code></li>
+								<li>Database table prefix used by <code>$wpdb</code> to <code>wp_#_</code> from <code>wp_</code></li>
+								<li>Global <code>$blog_id</code></li>
 							</ul>
 						</p>
-						<p>Does not switch plugins or themes</p>
 					</div>
 
 				</section>
 
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+
+					<pre><code>wp_cache_init();
+wp_cache_add_global_groups( $global_groups );
+wp_cache_add_non_persistent_groups( array( ... ) );</code></pre>
+
+					<div style="text-align: left;">
+						<p>Context changes:
+							<ul>
+								<li>Uses the global <code>$table_prefix</code> to reinitialize object cache with keys for the switched site.</li>
+							</ul>
+						</p>
+					</div>
+				</section>
+
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+
+					<pre><code>$wp_roles->reinit();
+$current_user = wp_get_current_user();
+$current_user->for_blog( $new_blog );</code></pre>
+
+					<div style="text-align: left;">
+						<p>Context changes:
+							<ul>
+								<li>Uses <code>$wpdb->get_blog_prefix()</code> to set a prefix for grabbing <code>wp_#_user_roles</code> from <code>get_option()</code></li>
+							</ul>
+					</div>
+				</section>
+
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+
+					<pre><code>// Delete the rewrite_rules option from
+// the switched site. Good!
+delete_option( 'rewrite_rules' );
+
+// Build the permalink structure in the
+// context of the main site. Bad!
+$this->rewrite_rules();
+
+// Update the rewrite_rules option for the
+// switched site. Horrible!
+update_option( 'rewrite_rules', $this->rules );</code></pre>
+					<div style="text-align: left;">
+						<p>Does not change the context of rewrite rules.</p>
+						<p><a href="https://jeremyfelt.com/multisite-rewrite-rules/">https://jeremyfelt.com/multisite-rewrite-rules/</a></p>
+					</div>
+				</section>
+
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+
+					<div style="text-align: left;">
+						<p>Does not change the context of code.</p>
+						<p>Only the theme and plugins activated for the original site will be available.</p>
+					</div>
+				</section>
 				<section>
 					<h1><span class="code">restore_current_blog()</span></h1>
 
@@ -1321,9 +1394,25 @@ $prev_blog_id = $GLOBALS['blog_id'];
 $GLOBALS['blog_id'] = $blog;
 $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();</code></pre>
 
+					<div style="text-align: left;">
+						<p>Restore context to the last used site via <code>$GLOBALS['_wp_switched_stack']</code>.</p>
+					</div>
+
 					<aside class="notes">Using the global <code>_wp_switched_stack</code> WP maintains, we're able to switch back down to where we started. Can be useful to loop this until it returns false.</aside>
 				</section>
 
+				<section>
+					<h1><span class="code">ms_is_switched()</span></h1>
+
+					<pre><code class="php">// Loop until $GLOBALS['_wp_switched_stack'] is clear.
+while ( ms_is_switched() ) {
+	restore_current_blog();
+}</code></pre>
+
+					<div style="text-align: left;">
+						<p>Determine if context is switched and when we're back to normal.</p>
+					</div>
+				</section>
 				<section>
 					<h1><span class="code">is_main_site()</span></h1>
 
@@ -1363,6 +1452,11 @@ $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();</code></pre>
 
     return $network_id === $primary_network_id;
 }</code></pre>
+		
+					<div style="text-align: left;">
+						<p><code>get_main_network_id()</code> will be available in 4.3</p>
+					</div>
+
 				</section>
 
 				<section class="so-many-h1" style="text-align: left;">
@@ -1621,7 +1715,6 @@ $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();</code></pre>
 						* wp_18_term_relationships							
 					</div>
 
-
 				</section>
 
 				<section>
@@ -1640,7 +1733,7 @@ $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();</code></pre>
 				<section class="title-slide">
 					<h1>Multisite</h1>
 					<p>Office Hours: Tuesday, 20:00 UTC in #core-multisite</p>
-					<p>Slides: jeremyfelt.com/loopconf/</p>
+					<p>Slides: <a href="https://jeremyfelt.com/wcyvr-2015/">jeremyfelt.com/wcyvr-2015/</a></p>
 					<p>@jeremyfelt</p>
 				</section>
 			</div><!-- end .slides -->
@@ -1673,7 +1766,7 @@ $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();</code></pre>
 				],
 
 			    width: 1600,
-			    height: 1066,
+			    height: 1200,
 
 			    // Factor of the display size that should remain empty around the content
 			    margin: 0.1,
