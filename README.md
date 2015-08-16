@@ -1,3 +1,3 @@
-# Zen and the Art of Multisite Maintenance
+# Behind the curtain of WordPress multisite
 
-Loopconf - May 7, 2015
+WordCamp Vancouver - August 15, 2015
