@@ -1,3 +1,3 @@
-# Behind the curtain of WordPress multisite
+# Multisite!
 
-WordCamp Vancouver - August 15, 2015
+WordCamp Europe - June, 2016
