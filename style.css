@@ -1,5 +1,4 @@
 html {
-	font-size: 2vw;
 	color: #fff;
 }
 
@@ -127,6 +126,12 @@ html {
 	float: left;
 	width: 50%;
 	height: 100%;
+}
+
+.reveal .ms-tables-dots {
+	line-height: 0.8;
+	letter-spacing: 0;
+	font-size: 1.25em;
 }
 
 .reveal .ms-tables-almost-global ul,
