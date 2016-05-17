@@ -1,3 +1,8 @@
+html {
+	font-size: 2vw;
+	color: #fff;
+}
+
 .reveal h1,
 .reveal h2,
 .reveal h3,
@@ -15,12 +20,8 @@
 	text-transform: none;
 }
 
-.reveal h1 {
-	font-size: 3.5em;
-}
-
 .reveal .slide-background {
-	background-color: #2a3033;
+	background-color: rgb( 0, 165, 189);
 }
 
 .reveal .title-slide {
@@ -28,12 +29,16 @@
 }
 
 .reveal .title-slide h1 {
-	font-size: 9em;
+	font-size: 8em;
+	line-height: 1;
+	margin-bottom: 0;
 }
 
 .reveal .title-slide p {
-	font-size: 1.6em;
-	padding-left: .4em;
+	margin-top: 0;
+	font-size: 3em;
+	line-height: 1;
+	padding-left: .2em;
 }
 
 .reveal .single-word-slide h1 {
@@ -50,19 +55,16 @@
 
 /** WordPress 3.0 "Thelonious" **/
 .reveal .thelonious {
-	background-size: contain;
+	background-size: cover;
 	background-position: 0 50%;
 }
 
-.reveal .thelonious .thelonious-content {
-	float: right;
-	width: 50%;
-	margin-right: -10%;
+.reveal .thelonious .thelonious-content h1 {
+	font-size: 10rem;
+	line-height: 1;
+	margin-bottom: 0;
 }
 
-.reveal .thelonious h1 {
-	font-size: 2.8em;
-}
 /*--------------------------*/
 
 .file-title h1 {
@@ -95,6 +97,10 @@
 	padding: 0 0 0 0;
 }
 
+.reveal .db-slide {
+	padding-top: 0;
+}
+
 .reveal .ms-tables {
     float: left;
     text-align: left;
@@ -102,7 +108,7 @@
 }
 
 .reveal .ms-tables ul {
-	margin: 0 0 25px 0;
+	margin: 0 0 0.5em 0;
 	list-style: none;
 }
 
@@ -134,23 +140,23 @@
 
 .reveal .db-slide-zero .ms-tables li,
 .reveal .db-slide-one .ms-tables li {
-	font-size: 2.9rem;
+	font-size: 1em;
 }
 
 .reveal .db-slide-two .ms-tables li {
-	font-size: 2rem;
+	font-size: .7em;
 }
 
 .reveal .db-slide-three .ms-tables li {
-	font-size: 1.6rem;
+	font-size: .55em;
 }
 
 .reveal .db-slide-four .ms-tables li {
-	font-size: 1rem;
+	font-size: .4em;
 }
 
 .reveal .db-slide-five .ms-tables li {
-	font-size: .8rem;
+	font-size: .33em;
 }
 
 .reveal .db-slide-four .ms-tables {
