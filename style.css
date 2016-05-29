@@ -19,6 +19,12 @@ html {
 	text-transform: none;
 }
 
+.reveal .slides > section {
+	padding-top: 0;
+	padding-bottom: 0;
+
+}
+
 .reveal .slide-background {
 	background-color: rgb(11,63,96);
 }

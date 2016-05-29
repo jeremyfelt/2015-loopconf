@@ -822,7 +822,7 @@
 				</section>
 
 				<section class="overview-slide">
-					<h1>Bootstrap a page view</h1>
+					<h1>Bootstrap</h1>
 				</section>
 
 				<section style="text-align: left;">
@@ -838,8 +838,7 @@ $current_site->blog_id; // The ID of the network's main site
 | id | domain                    | path |
 +----+---------------------------+------+
 |  1 | jeremyfelt.com            | /    |
-+----+---------------------------+------+
-1 row in set (0.00 sec)</code></pre>
++----+---------------------------+------+</code></pre>
 				</section>
 
 				<section style="text-align: left;">
@@ -856,13 +855,10 @@ $current_blog->path;    // Leading and trailing slashes</code></pre>
 +---------+---------+----------------+----------+
 |       1 |       1 | jeremyfelt.com | /        |
 |       2 |       1 | jeremyfelt.com | /photos/ |
-+---------+---------+----------------+----------+
-2 rows in set (0.00 sec)</code></pre>
++---------+---------+----------------+----------+</code></pre>
 				</section>
 
-				<section>
-					<h1>Populating <code>$current_network</code> and <code>$current_site</code></h1>
-
+				<section style="text-align: left;">
 					<p><code>ms-settings.php</code></p>
 					<p><code>sunrise.php</code></p>
 					<p><code>ms_load_current_site_and_network();</code></p>
@@ -871,7 +867,7 @@ $current_blog->path;    // Leading and trailing slashes</code></pre>
 				<section style="text-align: left;">
 					<h1>Subdirectory Configuration</h1>
 
-					<p>All sites on a network have the same domain and different paths</p>
+					<p>Sites on a network have the same domain and different paths</p>
 					<p>Populate <span class="code">$current_site</span> first</p>
 					<p>If more than one network exists, use <span class="code">get_network_by_path()</span></p>
 					<p>Populate <span class="code">$current_blog</span> using <span class="code">get_site_by_path()</span></p>
@@ -922,25 +918,25 @@ $current_blog->path;    // Leading and trailing slashes</code></pre>
 
 				<section>
 					<h1><span class="code">switch_to_blog( $id )</span></h1>
-
+					<h2>Save current context</h2>
 					<pre><code>$GLOBALS['_wp_switched_stack'][] = $GLOBALS['blog_id'];
 // ...
 $GLOBALS['switched'] = true;</code></pre>
 
-					<div style="text-align: left;">
+					<aside class="notes">
 						<p>Store a record of the current context in an array that we can walk back through.</p>
-					</div>
+					</aside>
 				</section>
 
 				<section>
 					<h1><span class="code">switch_to_blog( $id )</span></h1>
-
+					<h2>Context changes</h2>
 					<pre><code>$wpdb->set_blog_id( $new_blog );
 $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();
 $prev_blog_id = $GLOBALS['blog_id'];
 $GLOBALS['blog_id'] = $new_blog;</code></pre>
 
-					<div style="text-align: left;">
+					<aside class="notes">
 						<p>Context changes:
 							<ul>
 								<li><code>$blog_id</code> property of <code>$wpdb</code></li>
@@ -948,44 +944,44 @@ $GLOBALS['blog_id'] = $new_blog;</code></pre>
 								<li>Global <code>$blog_id</code></li>
 							</ul>
 						</p>
-					</div>
+					</aside`>
 
 				</section>
 
 				<section>
 					<h1><span class="code">switch_to_blog( $id )</span></h1>
-
+					<h2>Context changes</h2>
 					<pre><code>wp_cache_init();
 wp_cache_add_global_groups( $global_groups );
 wp_cache_add_non_persistent_groups( array( ... ) );</code></pre>
 
-					<div style="text-align: left;">
+					<aside class="notes">
 						<p>Context changes:
 							<ul>
 								<li>Uses the global <code>$table_prefix</code> to reinitialize object cache with keys for the switched site.</li>
 							</ul>
 						</p>
-					</div>
+					</aside>
 				</section>
 
 				<section>
 					<h1><span class="code">switch_to_blog( $id )</span></h1>
-
+					<h2>Context changes</h2>
 					<pre><code>$wp_roles->reinit();
 $current_user = wp_get_current_user();
 $current_user->for_blog( $new_blog );</code></pre>
 
-					<div style="text-align: left;">
+					<aside class="notes">
 						<p>Context changes:
 							<ul>
 								<li>Uses <code>$wpdb->get_blog_prefix()</code> to set a prefix for grabbing <code>wp_#_user_roles</code> from <code>get_option()</code></li>
 							</ul>
-					</div>
+					</aside>
 				</section>
 
 				<section>
 					<h1><span class="code">switch_to_blog( $id )</span></h1>
-
+<p>Does not change the context of rewrite rules.</p>
 					<pre><code>// Delete the rewrite_rules option from
 // the switched site. Good!
 delete_option( 'rewrite_rules' );
@@ -997,10 +993,9 @@ $this->rewrite_rules();
 // Update the rewrite_rules option for the
 // switched site. Horrible!
 update_option( 'rewrite_rules', $this->rules );</code></pre>
-					<div style="text-align: left;">
-						<p>Does not change the context of rewrite rules.</p>
+					<aside class="notes">
 						<p><a href="https://jeremyfelt.com/multisite-rewrite-rules/">https://jeremyfelt.com/multisite-rewrite-rules/</a></p>
-					</div>
+					</aside>
 				</section>
 
 				<section>
@@ -1013,37 +1008,36 @@ update_option( 'rewrite_rules', $this->rules );</code></pre>
 				</section>
 				<section>
 					<h1><span class="code">restore_current_blog()</span></h1>
+					<h2>Restore saved context</h2>
 
 					<pre><code>if ( empty( $GLOBALS['_wp_switched_stack'] ) )
 	return false;
 
 $blog = array_pop( $GLOBALS['_wp_switched_stack'] );
-
 // ...
-
 $wpdb->set_blog_id( $blog );
 $prev_blog_id = $GLOBALS['blog_id'];
 $GLOBALS['blog_id'] = $blog;
 $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();</code></pre>
 
-					<div style="text-align: left;">
+					<aside class="notes">
 						<p>Restore context to the last used site via <code>$GLOBALS['_wp_switched_stack']</code>.</p>
-					</div>
-
-					<aside class="notes">Using the global <code>_wp_switched_stack</code> WP maintains, we're able to switch back down to where we started. Can be useful to loop this until it returns false.</aside>
+						<p>Using the global <code>_wp_switched_stack</code> WP maintains, we're able to switch back down to where we started. Can be useful to loop this until it returns false.</p>
+					</aside>
 				</section>
 
 				<section>
 					<h1><span class="code">ms_is_switched()</span></h1>
+					<h2>Check if context has switched</h2>
 
 					<pre><code class="php">// Loop until $GLOBALS['_wp_switched_stack'] is clear.
 while ( ms_is_switched() ) {
 	restore_current_blog();
 }</code></pre>
 
-					<div style="text-align: left;">
+					<aside class="notes">
 						<p>Determine if context is switched and when we're back to normal.</p>
-					</div>
+					</aside>
 				</section>
 				<section>
 					<h1><span class="code">is_main_site()</span></h1>
@@ -1085,10 +1079,6 @@ while ( ms_is_switched() ) {
     return $network_id === $primary_network_id;
 }</code></pre>
 
-					<div style="text-align: left;">
-						<p><code>get_main_network_id()</code> will be available in 4.3</p>
-					</div>
-
 				</section>
 
 				<section class="so-many-h1" style="text-align: left;">
@@ -1097,7 +1087,7 @@ while ( ms_is_switched() ) {
 				</section>
 
 				<section class="overview-slide">
-					<h1>Solutions to common requests</h1>
+					<h1>Common requests</h1>
 				</section>
 
 				<section>
@@ -1171,7 +1161,7 @@ while ( ms_is_switched() ) {
 			    height: 720,
 
 			    // Factor of the display size that should remain empty around the content
-			    margin: 0.1,
+			    margin: 0.2,
 
     			// Bounds for smallest/largest possible scale to apply to content
     			minScale: 0.2,
