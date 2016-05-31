@@ -774,7 +774,7 @@
 					</div>
 				</section>
 
-				<section>
+				<section class="slide-capabilities">
 					<h1>Capabilties</h1>
 					<pre><code>mysql> SELECT * FROM wp_usermeta WHERE meta_key LIKE '%_capabilities';
 +----------+---------+-------------------+---------------------------------+
@@ -858,10 +858,10 @@ $current_blog->path;    // Leading and trailing slashes</code></pre>
 +---------+---------+----------------+----------+</code></pre>
 				</section>
 
-				<section style="text-align: left;">
-					<p><code>ms-settings.php</code></p>
-					<p><code>sunrise.php</code></p>
-					<p><code>ms_load_current_site_and_network();</code></p>
+				<section class="so-many-h1" style="text-align: left;">
+					<h1><span class="code">ms-settings.php</span></h1>
+					<h1><span class="code">sunrise.php</span></h1>
+					<h1><span class="code">ms_load_current_site_and_network()</code></h1>
 				</section>
 
 				<section style="text-align: left;">
@@ -890,8 +890,6 @@ $current_blog->path;    // Leading and trailing slashes</code></pre>
 				<section>
 					<h1>Must Use Plugins</h1>
 					<p>wp-content/mu-plugins/</p>
-
-					<img src="images/mu-plugins-wsu.png" style="max-width:40vw;">
 				</section>
 
 				<section>
@@ -906,10 +904,12 @@ $current_blog->path;    // Leading and trailing slashes</code></pre>
 
 				<section>
 					<h1>Network Enabled Themes</h1>
+					<p>wp-admin/network/themes.php</p>
 				</section>
 
 				<section>
 					<h1>Site Enabled Themes</h1>
+					<p>wp-admin/network/site-themes.php</p>
 				</section>
 
 				<section class="overview-slide">
@@ -918,7 +918,12 @@ $current_blog->path;    // Leading and trailing slashes</code></pre>
 
 				<section>
 					<h1><span class="code">switch_to_blog( $id )</span></h1>
-					<h2>Save current context</h2>
+					<h2>Changes the context of the request</h2>
+				</section>
+
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+					<h2>Stores current context</h2>
 					<pre><code>$GLOBALS['_wp_switched_stack'][] = $GLOBALS['blog_id'];
 // ...
 $GLOBALS['switched'] = true;</code></pre>
@@ -930,7 +935,7 @@ $GLOBALS['switched'] = true;</code></pre>
 
 				<section>
 					<h1><span class="code">switch_to_blog( $id )</span></h1>
-					<h2>Context changes</h2>
+					<h2>Sets database context</h2>
 					<pre><code>$wpdb->set_blog_id( $new_blog );
 $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();
 $prev_blog_id = $GLOBALS['blog_id'];
@@ -950,7 +955,7 @@ $GLOBALS['blog_id'] = $new_blog;</code></pre>
 
 				<section>
 					<h1><span class="code">switch_to_blog( $id )</span></h1>
-					<h2>Context changes</h2>
+					<h2>Sets object cache context</h2>
 					<pre><code>wp_cache_init();
 wp_cache_add_global_groups( $global_groups );
 wp_cache_add_non_persistent_groups( array( ... ) );</code></pre>
@@ -966,7 +971,7 @@ wp_cache_add_non_persistent_groups( array( ... ) );</code></pre>
 
 				<section>
 					<h1><span class="code">switch_to_blog( $id )</span></h1>
-					<h2>Context changes</h2>
+					<h2>Sets context of core roles</h2>
 					<pre><code>$wp_roles->reinit();
 $current_user = wp_get_current_user();
 $current_user->for_blog( $new_blog );</code></pre>
@@ -976,6 +981,17 @@ $current_user->for_blog( $new_blog );</code></pre>
 							<ul>
 								<li>Uses <code>$wpdb->get_blog_prefix()</code> to set a prefix for grabbing <code>wp_#_user_roles</code> from <code>get_option()</code></li>
 							</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h1><span class="code">switch_to_blog( $id )</span></h1>
+					<h2>Does not change the context of code</h2>
+					<aside class="notes">
+						<p>Custom roles</p>
+						<p>Custom post types</p>
+						<p>Custom taxonomies</p>
+						<p>Custom rewrite rules</p>
 					</aside>
 				</section>
 
@@ -999,16 +1015,8 @@ update_option( 'rewrite_rules', $this->rules );</code></pre>
 				</section>
 
 				<section>
-					<h1><span class="code">switch_to_blog( $id )</span></h1>
-
-					<div style="text-align: left;">
-						<p>Does not change the context of code.</p>
-						<p>Only the theme and plugins activated for the original site will be available.</p>
-					</div>
-				</section>
-				<section>
 					<h1><span class="code">restore_current_blog()</span></h1>
-					<h2>Restore saved context</h2>
+					<h2>Restores saved context</h2>
 
 					<pre><code>if ( empty( $GLOBALS['_wp_switched_stack'] ) )
 	return false;
@@ -1028,7 +1036,7 @@ $GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();</code></pre>
 
 				<section>
 					<h1><span class="code">ms_is_switched()</span></h1>
-					<h2>Check if context has switched</h2>
+					<h2>Checks for switched context</h2>
 
 					<pre><code class="php">// Loop until $GLOBALS['_wp_switched_stack'] is clear.
 while ( ms_is_switched() ) {
@@ -1037,51 +1045,12 @@ while ( ms_is_switched() ) {
 
 					<aside class="notes">
 						<p>Determine if context is switched and when we're back to normal.</p>
+						<p>There are a couple of other useful function - is_main_site(), is_main_network()</p>
 					</aside>
 				</section>
-				<section>
+				<section class="multi-functions" style="text-align: left;">
 					<h1><span class="code">is_main_site()</span></h1>
-
-					<pre><code>function is_main_site( $site_id = null ) {
-	// This is the current network's information
-	global $current_site;
-
-	if ( ! is_multisite() )
-		return true;
-
-	if ( ! $site_id )
-		$site_id = get_current_blog_id();
-
-	return (int) $site_id === (int) $current_site->blog_id;
-}</code></pre>
-				</section>
-
-				<section>
 					<h1><span class="code">is_main_network()</span></h1>
-
-					<pre><code>function is_main_network( $network_id = null ) {
-    $current_network_id = (int) get_current_site()->id;
-
-    if ( ! $network_id )
-      $network_id = $current_network_id;
-
-    if ( defined( 'PRIMARY_NETWORK_ID' ) )
-      return $network_id === (int) PRIMARY_NETWORK_ID;
-
-    if ( 1 === $current_network_id )
-      return $network_id === $current_network_id;
-
-    if ( $primary_network_id )
-      return $network_id === $primary_network_id;
-
-    $primary_network_id = $wpdb->get_var( "SELECT id FROM $wpdb->site..." );
-
-    return $network_id === $primary_network_id;
-}</code></pre>
-
-				</section>
-
-				<section class="so-many-h1" style="text-align: left;">
 					<h1><span class="code">get_blog_details()</span></h1>
 					<h1><span class="code">get_current_site()</span></h1>
 				</section>
@@ -1093,39 +1062,37 @@ while ( ms_is_switched() ) {
 				<section>
 					<h1>Domain "Mapping"</h1>
 
-					<img src="images/mercator-aliases.png">
-
 					<p>Mercator - https://github.com/humanmade/Mercator</p>
-				</section>
-
-				<section>
-					<h1>Multiple Networks</h1>
-
-					<img src="images/wp-multi-network.png">
-
-					<p>WP Multi Network - https://wordpress.org/plugins/wp-multi-network/</p>
-				</section>
-
-				<section>
-					<h1>Content Syndication</h1>
 				</section>
 
 				<section>
 					<h1>Arbitrary Domains &amp; Paths</h1>
 				</section>
 
-				<section class="overview-slide">
+				<section>
+					<h1>Multiple Networks</h1>
+
+					<p>WP Multi Network - https://wordpress.org/plugins/wp-multi-network/</p>
+				</section>
+
+				<section>
+					<h1>Content Syndication</h1>
+
+					<p>WSUWP Content Syndicate</p>
+				</section>
+
+				<section class="so-many-h1">
 					<h1>WordPress 4.6</h1>
-					<p>WP_Site_Query</p>
-					<p>get_sites()</p>
-					<p>get_site()</p>
-					<p>WP_Network_Query</p>
+					<div style="text-align: left;">
+						<h1><span class="code">WP_Site_Query</span></h1>
+						<h1><span class="code">get_sites()</span></h1>
+						<h1><span class="code">get_site()</span></h1>
+						<h1><span class="code">WP_Network_Query</span></h1>
+					</div>
 				</section>
 
 				<section class="title-slide">
 					<h1>Multisite!</h1>
-					<p>Office Hours: Tuesday, 16:00 UTC in #core-multisite</p>
-					<p>Slides: <a href="https://jeremyfelt.com/wceu-2016/">jeremyfelt.com/wceu-2016/</a></p>
 					<p>@jeremyfelt</p>
 				</section>
 			</div><!-- end .slides -->
