@@ -736,17 +736,17 @@
 				</section>
 
 				<section>
-					<h1><span class="code">wp_#_tablename</span></h1>
+					<h1><span class="code">wp_<span style="color: #FFaa10;">#</span>_tablename</span></h1>
 				</section>
 
 				<section class="slide-capabilities">
-					<h1><span class="code">wp_#_capabilities</span></h1>
+					<h1><span class="code">wp_<span style="color: #FFaa10;">#</span>_capabilities</span></h1>
 					<pre><code>wp_2_capabilities | a:1:{s:11:"contributor",b:1;}
 wp_5_capabilities | a:1:{s:13:"administrator",b:1}</code></pre>
 				</section>
 
 				<section>
-					<h1><span class="code">wp-content/uploads/sites/#/</span></h1>
+					<h1><span class="code">wp-content/uploads/sites/<span style="color: #FFaa10;">#</span>/</span></h1>
 					<pre><code>
 [jeremyfelt@wsuwp www]$ ls wp-content/uploads/sites
 
@@ -758,18 +758,7 @@ wp_5_capabilities | a:1:{s:13:"administrator",b:1}</code></pre>
 				</section>
 
 				<section>
-					<h1>Object Cache Key</h1>
-					<pre><code>public function buildKey( $key, $group = 'default' ) {
-    if ( empty( $group ) )
-        $group = 'default';
-
-    if ( false !== array_search( $group, $this->global_groups ) )
-        $prefix = $this->global_prefix;
-    else
-        $prefix = $this->blog_prefix;
-
-    return WP_CACHE_KEY_SALT . "$prefix$group:$key";
-}</code></pre>
+					<h1><span class="code">WP_CACHE_KEY_SALT<span style="color:orange;">#</span>:$group:$key</span></h1>
 				</section>
 
 				<section class="overview-slide">
