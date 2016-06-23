@@ -170,13 +170,14 @@ html {
 	font-size: 1.25em;
 }
 
-.reveal .ms-tables-almost-global ul,
-.reveal .ms-tables-global .ms-tables ul {
-	padding: .25em 1em .5em .25em;
+.reveal .ms-tables-almost-global ul {
+	padding: 0 1em .5em .25em
 }
 
 .reveal .ms-tables-global .ms-tables ul {
 	background-color: #222;
+	margin-top: -.25em;
+	padding: .25em 1em .5em .25em;
 }
 
 .reveal .db-slide-zero .ms-tables li,
