@@ -43,6 +43,7 @@
 			<div class="slides">
 				<section class="title-slide">
 					<h1>Multisite!</h1>
+					<br>
 					<p>@jeremyfelt</p>
 				</section>
 
@@ -739,33 +740,19 @@
 				</section>
 
 				<section class="slide-capabilities">
-					<h1>Capabilties</h1>
-					<pre><code>mysql> SELECT * FROM wp_usermeta WHERE meta_key LIKE '%_capabilities';
-+----------+---------+-------------------+---------------------------------+
-| umeta_id | user_id | meta_key          | meta_value                      |
-+----------+---------+-------------------+---------------------------------+
-|       10 |       1 | wp_capabilities   | a:1:{s:13:"administrator";b:1;} |
-|       32 |       2 | wp_capabilities   | a:1:{s:13:"administrator";b:1;} |
-|       47 |       1 | wp_2_capabilities | a:1:{s:13:"administrator";b:1;} |
-|       54 |       2 | wp_2_capabilities | a:1:{s:11:"contributor";b:1;}   |
-|       58 |       3 | wp_2_capabilities | a:1:{s:6:"editor";b:1;}         |
-|       60 |       3 | wp_capabilities   | a:1:{s:6:"author";b:1;}         |
-+----------+---------+-------------------+---------------------------------+
-6 rows in set (0.00 sec)</code></pre>
+					<h1><span class="code">wp_#_capabilities</span></h1>
+					<pre><code>wp_2_capabilities | a:1:{s:11:"contributor",b:1;}
+wp_5_capabilities | a:1:{s:13:"administrator",b:1}</code></pre>
 				</section>
 
 				<section>
-					<h1>Upload Directories</h1>
+					<h1><span class="code">wp-content/uploads/sites/#/</span></h1>
 					<pre><code>
 [jeremyfelt@wsuwp www]$ ls wp-content/uploads/sites
 
 1     1040  1080  1122  1162  1202  1251  129   1327
 100   1041  1081  1123  1163  1203  1252  1290  1328
 1000  1042  1082  1124  1164  1204  1253  1291  1329
-1001  1043  1084  1125  1165  1205  1254  1292  133
-1002  1044  1085  1126  117   1206  1255  1294  1330
-1004  1045  1087  1127  1170  1208  1257  1295  1331
-1006  1046  1088  1128  1172  1209  1258  130   1332
 </code></pre>
 
 				</section>
@@ -1053,13 +1040,14 @@ while ( ms_is_switched() ) {
 						<h1><span class="code">WP_Site_Query</span></h1>
 						<h1><span class="code">get_sites()</span></h1>
 						<h1><span class="code">get_site()</span></h1>
-						<h1><span class="code">WP_Network_Query</span></h1>
+						<h1><em><span class="code">WP_Network_Query</span></em></h1>
 					</div>
 				</section>
 
 				<section class="title-slide">
 					<h1>Multisite!</h1>
-					<p>@jeremyfelt</p>
+					<br>
+					<p style="font-size: 2em;">Slides:<br><span style="color:#fff;">jeremyfelt.com/wceu-2016/</span></p>
 				</section>
 			</div><!-- end .slides -->
 
