@@ -861,8 +861,29 @@ $current_blog->path;    // Leading and trailing slashes</code></pre>
 				</section>
 
 				<section>
+					<h1><span class="code">get_networks()</span></h1>
+					<h2>Retrieves a set of <code>WP_Network</code> objects with <code>WP_Network_Query</code></h2>
+					<pre><code>$networks = get_networks(
+    array( 'domain' => 'make.wordpress.org' )
+);</code></pre>
+				</section>
+
+				<section>
+					<h1><span class="code">get_sites()</span></h1>
+					<h2>Retrieves a set of <code>WP_Site</code> objects with <code>WP_Site_Query</code></h2>
+					<pre><code>$network_sites = get_sites(
+    array( 'network_id' => $network->id )
+);</code></pre>
+				</section>
+
+				<section>
 					<h1><span class="code">switch_to_blog( $id )</span></h1>
 					<h2>Changes the context of the request</h2>
+					<pre><code>foreach ( $network_sites as $network_site ) {
+    switch_to_blog( $network_site->id );
+    // do important things.
+    restore_current_blog();
+}</code></pre>
 				</section>
 
 				<section>
